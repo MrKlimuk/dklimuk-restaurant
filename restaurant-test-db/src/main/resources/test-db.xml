@@ -19,6 +19,7 @@
 
     <jdbc:initialize-database>
         <jdbc:script location="classpath*:create-db.sql"/>
+        <jdbc:script location="classpath*:data-script.sql"/>
     </jdbc:initialize-database>
 
 </beans>
