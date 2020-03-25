@@ -10,7 +10,9 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.epam.brest.courses.constants.ItemConstants.*;
@@ -26,6 +28,8 @@ public class ItemDaoJdbc implements ItemDao {
     @Value("${item.create}")
     private String createItemSql;
 
+    @Value("${item.update}")
+    private String updateItemSql;
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -61,7 +65,12 @@ public class ItemDaoJdbc implements ItemDao {
 
     @Override
     public int update(Item item) {
-        return 0;
+        Map<String, Object> params = new HashMap<>();
+        params.put(ITEM_ID, item.getItemId());
+        params.put(ITEM_NAME, item.getItemName());
+        params.put(ITEM_PRICE, item.getItemPrice());
+        return namedParameterJdbcTemplate.update(updateItemSql, params);
+
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.swing.text.html.Option;
+import java.awt.peer.ListPeer;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -62,6 +63,33 @@ public class ItemDaoJdbcIT {
 
       Integer id = itemDao.create(item);
       assertNotNull(id);
+    }
+
+    @Test
+    public void shouldUpdateItem(){
+        Item item = new Item()
+                .setItemName(RandomStringUtils.randomAlphabetic(ITEM_NAME_SIZE))
+                .setItemPrice(ITEM_PRICE);
+        Integer id = itemDao.create(item);
+        assertNotNull(id);
+
+        Optional<Item> itemOptional = itemDao.findById(id);
+        Assertions.assertTrue(itemOptional.isPresent());
+
+        itemOptional.get().setItemName(RandomStringUtils.randomAlphabetic(ITEM_NAME_SIZE))
+                        .setItemPrice(ITEM_PRICE_FOR_UPDATE);
+        int result = itemDao.update(itemOptional.get());
+        assertTrue(1 == result);
+
+        Optional<Item> optionalUpdateItem = itemDao.findById(id);
+        Assertions.assertTrue(optionalUpdateItem.isPresent());
+
+        assertEquals(optionalUpdateItem.get().getItemId(), id);
+        assertEquals(optionalUpdateItem.get().getItemName(), itemOptional.get().getItemName());
+        assertEquals(optionalUpdateItem.get().getItemPrice(), itemOptional.get().getItemPrice());
+
+
+
     }
 
 }
