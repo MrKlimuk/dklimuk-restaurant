@@ -20,16 +20,18 @@ public class Item {
         return itemName;
     }
 
-    public void setItemName(String itemName) {
+    public Item setItemName(String itemName) {
         this.itemName = itemName;
+        return this;
     }
 
     public BigDecimal getItemPrice() {
         return itemPrice;
     }
 
-    public void setItemPrice(BigDecimal itemPrice) {
+    public Item setItemPrice(BigDecimal itemPrice) {
         this.itemPrice = itemPrice;
+        return this;
     }
 
     @Override
