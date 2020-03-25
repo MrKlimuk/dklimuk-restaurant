@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8" >
     <title>Items</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
 </head>
+
 <body>
-Items Page
+
+<h1>Items Page</h1>
 
 <table>
     <tr>
@@ -14,10 +23,16 @@ Items Page
     </tr>
 </table>
 
-
+<br><br>
+<a th:href="@{|/goToAddItemPage|}">+Add</a></span>
 
 <table>
     <tbody>
+    <tr>
+        <td>№</td>
+        <td>Name</td>
+        <td>Price</td>
+    </tr>
         <tr th:each="item : ${items}">
             <td th:text="${item.itemId}">|Item Id|</td>
             <td th:text = "${item.itemName}">|Item Name|</td>
