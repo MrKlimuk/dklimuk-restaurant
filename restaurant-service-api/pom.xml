@@ -11,5 +11,11 @@
 
     <artifactId>restaurant-service-api</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.epam.brest.courses</groupId>
+            <artifactId>restaurant-model</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
