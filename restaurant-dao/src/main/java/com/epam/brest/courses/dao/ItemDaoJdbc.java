@@ -31,6 +31,9 @@ public class ItemDaoJdbc implements ItemDao {
     @Value("${item.update}")
     private String updateItemSql;
 
+    @Value("${item.delete}")
+    private String deleteItemSql;
+
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public ItemDaoJdbc(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -75,6 +78,8 @@ public class ItemDaoJdbc implements ItemDao {
 
     @Override
     public int delete(Integer itemId) {
-        return 0;
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue(ITEM_ID, itemId);
+        return namedParameterJdbcTemplate.update(deleteItemSql, param);
     }
 }

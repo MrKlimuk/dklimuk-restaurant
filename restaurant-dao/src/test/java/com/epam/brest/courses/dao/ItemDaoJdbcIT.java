@@ -87,8 +87,25 @@ public class ItemDaoJdbcIT {
         assertEquals(optionalUpdateItem.get().getItemId(), id);
         assertEquals(optionalUpdateItem.get().getItemName(), itemOptional.get().getItemName());
         assertEquals(optionalUpdateItem.get().getItemPrice(), itemOptional.get().getItemPrice());
+    }
 
+    @Test
+    public void shouldDeleteItem(){
+        Item item = new Item()
+                .setItemName(RandomStringUtils.randomAlphabetic(ITEM_NAME_SIZE))
+                .setItemPrice(ITEM_PRICE);
+        Integer id = itemDao.create(item);
 
+        List<Item> items = itemDao.findAll();
+        assertNotNull(items);
+
+        int result = itemDao.delete(id);
+        assertTrue(1 == result);
+
+        List<Item> currentItems = itemDao.findAll();
+        assertNotNull(currentItems);
+
+        assertTrue(items.size() - 1 == currentItems.size());
 
     }
 
