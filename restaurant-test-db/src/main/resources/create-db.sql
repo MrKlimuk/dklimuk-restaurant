@@ -15,3 +15,14 @@ CREATE TABLE item(
 );
 
 
+
+DROP TABLE IF EXISTS position;
+CREATE TABLE position (
+position_id INT NOT NULL AUTO_INCREMENT,
+position_order_id INT NOT NULL,
+position_name VARCHAR(255) NOT NULL,
+position_price INT NOT NULL,
+position_count INT NOT NULL,
+PRIMARY KEY (position_id),
+FOREIGN KEY (position_order_id) REFERENCES ordertable(order_id) ON DELETE CASCADE
+);
