@@ -34,7 +34,7 @@ public class ItemController {
         return "items";
     }
 
-    @GetMapping(value = "/addItem")
+    @GetMapping(value = "/item/add")
     public String goToAddItemPage(){
         return "itemAdd";
     }
