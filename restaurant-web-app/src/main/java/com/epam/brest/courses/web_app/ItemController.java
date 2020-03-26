@@ -5,6 +5,7 @@ import com.epam.brest.courses.service.ItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -39,6 +40,13 @@ public class ItemController {
     @PostMapping(value = "/itemAdd")
     public String  addItem(@Valid Item item){
         itemService.createItem(item);
+        return "redirect:/items";
+    }
+
+
+    @GetMapping(value = "/items/delete/{id}")
+    public String deleteItemById(@PathVariable("id") Integer itemId){
+        itemService.deleteItem(itemId);
         return "redirect:/items";
     }
 

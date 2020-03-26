@@ -32,11 +32,19 @@
         <td>№</td>
         <td>Name</td>
         <td>Price</td>
+        <td>Edit</td>
+        <td>Delete</td>
     </tr>
         <tr th:each="item : ${items}">
             <td th:text="${item.itemId}">|Item Id|</td>
             <td th:text = "${item.itemName}">|Item Name|</td>
             <td th:text="${item.itemPrice}">|Item Price|</td>
+            <td>
+                <a th:href="@{|/items/edit/${item.itemId}|}">Edit</a>
+            </td>
+            <td>
+                <a th:href="@{|/items/delete/${item.itemId}|}">Del</a>
+            </td>
         </tr>
     </tbody>
 </table>
