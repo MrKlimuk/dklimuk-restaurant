@@ -1,14 +1,31 @@
 package com.epam.brest.courses.dao;
 
 import com.epam.brest.courses.model.Order;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.List;
 import java.util.Optional;
 
 public class OrderDaoJdbc implements OrderDao {
+
+    @Value("${ordertable.select}")
+    private String findAllOrdersSql;
+
+
+
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    public OrderDaoJdbc(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
     @Override
     public List<Order> findAllOrders() {
-        return null;
+        List<Order> orders = namedParameterJdbcTemplate
+                .query(findAllOrdersSql, BeanPropertyRowMapper.newInstance(Order.class));
+        return orders;
     }
 
     @Override
