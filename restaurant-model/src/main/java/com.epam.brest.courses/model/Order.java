@@ -19,8 +19,9 @@ public class Order {
         return orderName;
     }
 
-    public void setOrderName(String orderName) {
+    public Order setOrderName(String orderName) {
         this.orderName = orderName;
+        return this;
     }
 
     public BigDecimal getOrderPrice() {

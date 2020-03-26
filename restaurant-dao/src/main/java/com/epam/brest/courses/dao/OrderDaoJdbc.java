@@ -3,15 +3,27 @@ package com.epam.brest.courses.dao;
 import com.epam.brest.courses.model.Order;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.epam.brest.courses.constants.OrderConstants.ORDER_ID;
+import static com.epam.brest.courses.constants.OrderConstants.ORDER_NAME;
 
 public class OrderDaoJdbc implements OrderDao {
 
     @Value("${ordertable.select}")
     private String findAllOrdersSql;
+
+    @Value("${ordertable.create}")
+    private String createOrderSql;
+
+    @Value("${ordertable.delete}")
+    private String deleteOrderSql;
 
 
 
@@ -35,7 +47,11 @@ public class OrderDaoJdbc implements OrderDao {
 
     @Override
     public Integer createOrder(Order order) {
-        return null;
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue(ORDER_NAME, order.getOrderName());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(createOrderSql, params, keyHolder);
+        return keyHolder.getKey().intValue();
     }
 
     @Override
@@ -45,6 +61,10 @@ public class OrderDaoJdbc implements OrderDao {
 
     @Override
     public int delete(Integer orderId) {
-        return 0;
+        MapSqlParameterSource mapSqlParameterSource =
+                new MapSqlParameterSource();
+        mapSqlParameterSource.addValue(ORDER_ID, orderId);
+        return namedParameterJdbcTemplate.update(deleteOrderSql, mapSqlParameterSource);
     }
+
 }
