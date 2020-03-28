@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface OrderDao {
     List<Order> findAllOrders();
-    Optional<Order> findOrderById();
+    Optional<Order> findOrderById(Integer orderId);
     Integer createOrder(Order order);
     int update(Order order);
     int delete(Integer orderId);

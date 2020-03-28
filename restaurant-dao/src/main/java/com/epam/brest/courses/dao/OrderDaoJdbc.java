@@ -2,9 +2,11 @@ package com.epam.brest.courses.dao;
 
 import com.epam.brest.courses.model.Order;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
@@ -18,6 +20,9 @@ public class OrderDaoJdbc implements OrderDao {
 
     @Value("${ordertable.select}")
     private String findAllOrdersSql;
+
+    @Value("${ordertable.findById}")
+    private String findByIdSql;
 
     @Value("${ordertable.create}")
     private String createOrderSql;
@@ -41,8 +46,11 @@ public class OrderDaoJdbc implements OrderDao {
     }
 
     @Override
-    public Optional<Order> findOrderById() {
-        return Optional.empty();
+    public Optional<Order> findOrderById(Integer orderId) {
+        SqlParameterSource namedParameter = new MapSqlParameterSource(ORDER_ID, orderId);
+        List<Order> results = namedParameterJdbcTemplate.query(findByIdSql, namedParameter,
+                BeanPropertyRowMapper.newInstance(Order.class));
+        return Optional.ofNullable(DataAccessUtils.uniqueResult(results));
     }
 
     @Override

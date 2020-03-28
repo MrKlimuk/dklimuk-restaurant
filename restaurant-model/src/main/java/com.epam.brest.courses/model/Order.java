@@ -28,8 +28,9 @@ public class Order {
         return orderPrice;
     }
 
-    public void setOrderPrice(BigDecimal orderPrice) {
+    public Order setOrderPrice(BigDecimal orderPrice) {
         this.orderPrice = orderPrice;
+        return this;
     }
 
     @Override

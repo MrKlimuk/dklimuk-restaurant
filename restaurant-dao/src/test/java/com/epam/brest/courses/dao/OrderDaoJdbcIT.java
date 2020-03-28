@@ -3,7 +3,7 @@ package com.epam.brest.courses.dao;
 
 import com.epam.brest.courses.model.Order;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +12,18 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static com.epam.brest.courses.constants.OrderConstants.ORDER_NAME_SIZE;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath*:test-db.xml", "classpath*:test-dao.xml", "classpath:dao.xml"})
 public class OrderDaoJdbcIT {
 
     private final OrderDao orderDao;
-    private static BigDecimal PRICE = new BigDecimal(100);
+    private static BigDecimal PRICE = new BigDecimal(0);
+    private static BigDecimal PRICE_FOR_UPDATE = new BigDecimal(50);
 
 
     @Autowired
@@ -35,6 +36,21 @@ public class OrderDaoJdbcIT {
         List<Order> orders = orderDao.findAllOrders();
         assertNotNull(orders);
         assertTrue(orders.size() > 0);
+    }
+
+    @Test
+    public void shouldFindOrderById(){
+        Order order = new Order()
+                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderPrice(PRICE);
+
+        Integer id = orderDao.createOrder(order);
+        Optional<Order> orderOptional = orderDao.findOrderById(id);
+
+        Assertions.assertTrue(orderOptional.isPresent());
+        assertEquals(orderOptional.get().getOrderId(), id);
+        assertEquals(orderOptional.get().getOrderName(), order.getOrderName());
+        assertEquals(orderOptional.get().getOrderPrice(), order.getOrderPrice());
     }
 
     @Test
