@@ -62,6 +62,31 @@ public class OrderDaoJdbcIT {
     }
 
     @Test
+    public void shouldUpdateOrder(){
+        Order order = new Order()
+                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderPrice(PRICE);
+        Integer id = orderDao.createOrder(order);
+        assertNotNull(id);
+
+        Optional<Order> orderOptional = orderDao.findOrderById(1);
+        Assertions.assertTrue(orderOptional.isPresent());
+
+        orderOptional.get().setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+
+        int result = orderDao.update(orderOptional.get());
+
+        assertTrue(1 == result);
+
+        Optional<Order> updateOrderOptional  =orderDao.findOrderById(1);
+        Assertions.assertTrue(updateOrderOptional.isPresent());
+        assertEquals(updateOrderOptional.get().getOrderId(), (Integer) 1);
+        assertEquals(updateOrderOptional.get().getOrderName(), orderOptional.get().getOrderName());
+        assertEquals(updateOrderOptional.get().getOrderPrice(), orderOptional.get().getOrderPrice());
+
+    }
+
+    @Test
     public void shouldDeleteOrder(){
         Order order = new Order().
                 setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));

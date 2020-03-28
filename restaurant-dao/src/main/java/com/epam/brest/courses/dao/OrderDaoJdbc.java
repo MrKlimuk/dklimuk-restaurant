@@ -10,7 +10,9 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.epam.brest.courses.constants.OrderConstants.ORDER_ID;
@@ -26,6 +28,9 @@ public class OrderDaoJdbc implements OrderDao {
 
     @Value("${ordertable.create}")
     private String createOrderSql;
+
+    @Value("${ordertable.update}")
+    private String updateOrderSql;
 
     @Value("${ordertable.delete}")
     private String deleteOrderSql;
@@ -64,7 +69,10 @@ public class OrderDaoJdbc implements OrderDao {
 
     @Override
     public int update(Order order) {
-        return 0;
+        Map<String, Object> params = new HashMap<>();
+        params.put(ORDER_ID, order.getOrderId());
+        params.put(ORDER_NAME, order.getOrderName());
+        return namedParameterJdbcTemplate.update(updateOrderSql, params);
     }
 
     @Override
