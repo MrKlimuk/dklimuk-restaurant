@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" >
     <title>Orders</title>
 
     <style>
@@ -20,6 +20,29 @@
         <td> <a href="items.html"> Items </a></td>
         <td> <a href="orders.html">Orders</a></td>
     </tr>
+</table>
+
+<table>
+    <tbody>
+    <tr>
+        <td>№</td>
+        <td>Name</td>
+        <td>Price</td>
+        <td>Edit</td>
+        <td>Delete</td>
+    </tr>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.orderId}">| Id |</td>
+        <td th:text = "${order.orderName}">| Name |</td>
+        <td th:text="${order.orderPrice}">| Price |</td>
+        <td>
+            <a th:href="@{|/orders/edit/${order.orderId}|}">Edit</a>
+        </td>
+        <td>
+            <a th:href="@{|/orders/delete/${order.orderId}|}">Del</a>
+        </td>
+    </tr>
+    </tbody>
 </table>
 
 </body>
