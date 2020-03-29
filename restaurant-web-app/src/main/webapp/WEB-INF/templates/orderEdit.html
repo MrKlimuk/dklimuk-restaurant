@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td> <a href="/orders">Back to orders</a></td>
+    </tr>
+</table>
+
+Edit item
+<form id="editOrder" th:object="${order}"  action="/orderEdit" method="post">
+    <input  id=" field_orderId" type = "hidden" th:field="*{orderId}"/>
+    <input  id = "EditOrderName"
+            name="orderName"
+            value="Order"
+            th:field="*{orderName}"/>
+    <input  id="EditOrderPrice"
+            name="orderName"
+            value="100"
+            th:field="*{orderPrice}"/>
+    <input  type="submit" value="Ok">
+</form>
+</body>
+</html>
