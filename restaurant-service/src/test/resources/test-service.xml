@@ -21,6 +21,14 @@
         <constructor-arg ref="jdbcTemplate"/>
     </bean>
 
+    <bean id="positionService" class="com.epam.brest.courses.service.PositionServiceImpl">
+        <constructor-arg ref="positionDao"/>
+    </bean>
+
+    <bean id="positionDao" class="com.epam.brest.courses.dao.PositionDaoJdbc">
+        <constructor-arg ref="jdbcTemplate"/>
+    </bean>
+
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
         <constructor-arg ref="dataSource"/>

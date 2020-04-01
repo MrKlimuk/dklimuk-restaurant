@@ -99,7 +99,6 @@ public class PositionDaoJdbcIT {
                 .setPositionName(RandomStringUtils.randomAlphabetic(POSITION_NAME_SIZE))
                 .setPositionPrice(POSITION_PRICE_UPDATE)
                 .setPositionCount(POSITION_COUNT_UPDATE);
-
         int result = positionDao.update(positionOptional.get());
         assertTrue(1 == result);
 
