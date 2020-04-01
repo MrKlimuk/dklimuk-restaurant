@@ -22,32 +22,36 @@ public class Position {
         return positionOrderId;
     }
 
-    public void setPositionOrderId(Integer positionOrderId) {
+    public Position setPositionOrderId(Integer positionOrderId) {
         this.positionOrderId = positionOrderId;
+        return this;
     }
 
     public String getPositionName() {
         return positionName;
     }
 
-    public void setPositionName(String positionName) {
+    public Position setPositionName(String positionName) {
         this.positionName = positionName;
+        return this;
     }
 
     public BigDecimal getPositionPrice() {
         return positionPrice;
     }
 
-    public void setPositionPrice(BigDecimal positionPrice) {
+    public Position setPositionPrice(BigDecimal positionPrice) {
         this.positionPrice = positionPrice;
+        return this;
     }
 
     public Integer getPositionCount() {
         return positionCount;
     }
 
-    public void setPositionCount(Integer positionCount) {
+    public Position setPositionCount(Integer positionCount) {
         this.positionCount = positionCount;
+        return this;
     }
 
     @Override

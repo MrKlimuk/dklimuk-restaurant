@@ -9,7 +9,7 @@ public interface PositionDao {
 
     List<Position> findAllPosition();
     Optional <Position> findPositionById(Integer positionId);
-    List<Position> findByOrderId(Integer positionOrderId);
+    List<Position> findPositionByOrderId(Integer positionOrderId);
     Integer create(Position position);
     int update(Position position);
     int delete(Integer positionId);

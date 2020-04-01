@@ -2,16 +2,39 @@ package com.epam.brest.courses.dao;
 
 import com.epam.brest.courses.model.Position;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.epam.brest.courses.constants.PositionConstants.*;
 
 public class PositionDaoJdbc implements PositionDao{
 
     @Value("${position.findAll}")
     private String findAllSql;
+
+    @Value("${position.findById}")
+    private String findPositionByIdSql;
+
+    @Value("${position.create}")
+    private String createPositionSql;
+
+    @Value("${position.update}")
+    private String updatePositionSql;
+
+
+    @Value("${position.delete}")
+    private String deletePositionSql;
+
+    @Value("${position.findByOrderId}")
+    private String findFindPositionByOrderIdSql;
 
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -30,17 +53,30 @@ public class PositionDaoJdbc implements PositionDao{
 
     @Override
     public Optional<Position> findPositionById(Integer positionId) {
-        return Optional.empty();
+        SqlParameterSource namedParameters = new MapSqlParameterSource(POSITION_ID, positionId);
+        List<Position> result = namedParameterJdbcTemplate.query(findPositionByIdSql, namedParameters,
+                                    BeanPropertyRowMapper.newInstance(Position.class));
+        return Optional.ofNullable(DataAccessUtils.uniqueResult(result));
     }
 
     @Override
-    public List<Position> findByOrderId(Integer positionOrderId) {
-        return null;
+    public List<Position> findPositionByOrderId(Integer positionOrderId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource(POSITION_ORDER_ID, positionOrderId);
+        List<Position> positions = namedParameterJdbcTemplate.query(findFindPositionByOrderIdSql,
+                parameterSource, BeanPropertyRowMapper.newInstance(Position.class));
+        return positions;
     }
 
     @Override
     public Integer create(Position position) {
-        return null;
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue(POSITION_ORDER_ID, position.getPositionOrderId());
+        params.addValue(POSITION_NAME, position.getPositionName());
+        params.addValue(POSITION_PRICE, position.getPositionPrice());
+        params.addValue(POSITION_COUNT, position.getPositionCount());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(createPositionSql, params, keyHolder);
+        return keyHolder.getKey().intValue();
     }
 
     @Override
