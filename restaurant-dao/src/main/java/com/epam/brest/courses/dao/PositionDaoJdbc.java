@@ -10,7 +10,9 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.epam.brest.courses.constants.PositionConstants.*;
@@ -81,11 +83,20 @@ public class PositionDaoJdbc implements PositionDao{
 
     @Override
     public int update(Position position) {
-        return 0;
+        Map<String, Object> params = new HashMap<>();
+        params.put(POSITION_ID, position.getPositionId());
+        params.put(POSITION_ORDER_ID, position.getPositionOrderId());
+        params.put(POSITION_NAME, position.getPositionName());
+        params.put(POSITION_PRICE, position.getPositionPrice());
+        params.put(POSITION_COUNT, position.getPositionCount());
+
+        return namedParameterJdbcTemplate.update(updatePositionSql, params);
     }
 
     @Override
     public int delete(Integer positionId) {
-        return 0;
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue(POSITION_ID, positionId);
+        return namedParameterJdbcTemplate.update(deletePositionSql, mapSqlParameterSource);
     }
 }
