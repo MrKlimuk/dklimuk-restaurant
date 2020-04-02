@@ -1,8 +1,12 @@
 package com.epam.brest.courses.web_app;
 
 
+import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.model.Order;
+import com.epam.brest.courses.model.Position;
+import com.epam.brest.courses.service.ItemService;
 import com.epam.brest.courses.service.OrderService;
+import com.epam.brest.courses.service.PositionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,9 +22,13 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderService orderService;
+    private final ItemService itemService;
+    private final PositionService positionService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, ItemService itemService, PositionService positionService) {
         this.orderService = orderService;
+        this.itemService = itemService;
+        this.positionService = positionService;
     }
 
     @GetMapping(value = "/orders")
@@ -44,8 +52,9 @@ public class OrderController {
 
     @PostMapping(value = "/orderAdd")
     public String addOrder(@Valid Order order){
-        orderService.createOrder(order);
-        return "redirect:/orders";
+        Integer id = orderService.createOrder(order);
+
+        return "redirect:/orders/edit/" +id;
     }
 
     @GetMapping(value = "orders/edit/{id}")
@@ -53,6 +62,10 @@ public class OrderController {
                                     Model model ){
         Optional<Order> orderOptional =orderService.findOrderById(id);
         model.addAttribute(orderOptional.get());
+        List<Item> items = itemService.findAllItem();
+        model.addAttribute("items", items);
+        List<Position> positions = positionService.findPositionByOrderId(id);
+        model.addAttribute("positions", positions);
         return "orderEdit";
     }
 
@@ -63,6 +76,36 @@ public class OrderController {
         return "redirect:/orders";
     }
 
+    @GetMapping(value = "/orders/details/{orderId}/add/{id}")
+    public String addItemToOrder(
+            @PathVariable("orderId") Integer orderId,
+            @PathVariable("id") Integer id){
 
+        Optional<Item> optionalItem = itemService.findItemById(id);
+
+        Position position = new Position();
+        position.setPositionOrderId(orderId);
+        position.setPositionName(optionalItem.get().getItemName());
+        position.setPositionPrice( optionalItem.get().getItemPrice());
+        position.setPositionCount(1);
+
+        positionService.create(position);
+        Optional<Order> optionalOrder = orderService.findOrderById(orderId);
+        orderService.update(optionalOrder.get());
+        String url = "/orders/edit/" + orderId;
+
+
+        return "redirect:" + url;
+    }
+
+    @GetMapping(value = "/orders/details/{orderId}/delete/{id}")
+    public String deleteItemFromOrder(@PathVariable("id") Integer id,
+                                      @PathVariable("orderId") Integer orderId){
+        positionService.delete(id);
+        Optional<Order> optionalOrder = orderService.findOrderById(orderId);
+        orderService.update(optionalOrder.get());
+        String url = "/orders/edit/" + orderId;
+        return "redirect:"+url;
+    }
 
 }

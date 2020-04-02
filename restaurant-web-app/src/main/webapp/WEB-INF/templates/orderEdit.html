@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
 </head>
 <body>
 
@@ -11,19 +17,75 @@
         <td> <a href="/orders">Back to orders</a></td>
     </tr>
 </table>
+<br><br>
 
 Edit item
 <form id="editOrder" th:object="${order}"  action="/orderEdit" method="post">
     <input  id=" field_orderId" type = "hidden" th:field="*{orderId}"/>
+    <label>Name order: </label>
     <input  id = "EditOrderName"
             name="orderName"
             value="Order"
             th:field="*{orderName}"/>
-    <input  id="EditOrderPrice"
-            name="orderName"
-            value="100"
-            th:field="*{orderPrice}"/>
-    <input  type="submit" value="Ok">
+    <input  type="submit" value="Save">
 </form>
+
+<form>
+    <label>Price: </label>
+
+
+</form>
+
+<br><br>
+
+<table>
+    <tr>Menu:
+        <td>
+            <tr>
+                <td> № </td>
+                <td> Name </td>
+                <td> Price</td>
+                <td> Add</td>
+            </tr>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.itemId}">|Item Id|</td>
+                <td th:text = "${item.itemName}">|Item Name|</td>
+                <td th:text="${item.itemPrice}">|Item Price|</td>
+                <td>
+                    <a th:href="@{|/orders/details/${order.orderId}/add/${item.itemId}|}">|+|</a>
+                </td>
+            </tr>
+         </td>
+    </tr>
+</table>
+
+<br><br>
+<table>
+    <tr>
+        <td> ID </td>
+        <td> № </td>
+        <td> Name</td>
+        <td> Price</td>
+        <td> Count</td>
+        <td> Delete </td>
+    </tr>
+    <tr th:each = "position : ${positions}">
+        <td th:text="${position.positionId}">PositionId</td>
+        <td th:text="${position.positionOrderId}" id="orderId" >PositionOrderId</td>
+        <td th:text="${position.positionName}">PositionName</td>
+        <td th:text="${position.positionPrice}">PositionPrice</td>
+        <td th:text="${position.positionCount}">PositionCount</td>
+
+        <td>
+        <span>
+              <a th:href="@{|/orders/details/${position.positionOrderId}/delete/${position.positionId}|}">|-Del|</a>
+        </span>
+        </td>
+    </tr>
+    </td>
+
+    </tr>
+
+</table>
 </body>
 </html>

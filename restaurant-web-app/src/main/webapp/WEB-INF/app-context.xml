@@ -52,6 +52,14 @@
     </bean>
 
 
+    <bean id="positionService" class="com.epam.brest.courses.service.PositionServiceImpl">
+        <constructor-arg ref="positionDao"/>
+    </bean>
+
+    <bean id="positionDao" class="com.epam.brest.courses.dao.PositionDaoJdbc">
+        <constructor-arg ref="namedParameterJdbcTemplate"/>
+    </bean>
+
 
 
 
