@@ -19,22 +19,17 @@
 </table>
 <br><br>
 
-Edit item
+Edit order
 <form id="editOrder" th:object="${order}"  action="/orderEdit" method="post">
-    <input  id=" field_orderId" type = "hidden" th:field="*{orderId}"/>
+    <input  id=" field_orderId" type = "hidden" th:field="*{orderId}" required>
     <label>Name order: </label>
     <input  id = "EditOrderName"
             name="orderName"
             value="Order"
-            th:field="*{orderName}"/>
+            th:field="*{orderName}" required>
     <input  type="submit" value="Save">
 </form>
 
-<form>
-    <label>Price: </label>
-
-
-</form>
 
 <br><br>
 
@@ -61,6 +56,15 @@ Edit item
 
 <br><br>
 <table>
+    <tr>
+        <td>Price:</td>
+        <td th:text="${order.orderPrice}"></td>
+    </tr>
+</table>
+
+<br><br>
+<table>
+
     <tr>
         <td> ID </td>
         <td> № </td>
