@@ -4,6 +4,15 @@
     <meta charset="UTF-8" >
     <title>Orders</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+
+
+
     <style>
         table, th, td {
             border: 1px solid black;
@@ -42,11 +51,54 @@
             <a th:href="@{|/orders/edit/${order.orderId}|}">Edit</a>
         </td>
         <td>
-            <a th:href="@{|/orders/delete/${order.orderId}|}">Del</a>
+            <span data-toggle="modal" data-target="#deleteDialog"
+                  th:attr="data-id=${order.orderId}, data-name=${order.orderName}">
+                <a href="#" >Delete</a>
+            </span>
         </td>
     </tr>
     </tbody>
 </table>
+
+<!-- Confirm delete Modal -->
+<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert-danger">
+                <h5 class="modal-title" id="exampleModalLabel">Delete order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Please confirm delete
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a id="deleteUrl" href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../../resources/static/js/jquery.min.js"
+        th:src="@{/resources/static/js/jquery.min.js}"></script>
+<script src="../../resources/static/js/popper.min.js"
+        th:src="@{/resources/static/js/popper.min.js}"></script>
+<script src="../../resources/static/js/bootstrap.min.js"
+        th:src="@{/resources/static/js/bootstrap.min.js}"></script>
+
+<script>
+    $('#deleteDialog').on('show.bs.modal', function (event) {
+        var target = $(event.relatedTarget)
+        $(this).find('.modal-body').text('Delete ' + target.data('name') + '?')
+        document.getElementById('deleteUrl').href = '/orders/delete/' + target.data('id');
+    })
+</script>
+
+
 
 </body>
 </html>
