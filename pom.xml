@@ -16,6 +16,7 @@
         <module>restaurant-service</module>
         <module>restaurant-service-api</module>
         <module>restaurant-web-app</module>
+        <module>restaurant-rest-app</module>
     </modules>
 
 
@@ -67,6 +68,12 @@
 
             <dependency>
                 <groupId>com.epam.brest.courses</groupId>
+                <artifactId>restaurant-rest-app</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.courses</groupId>
                 <artifactId>restaurant-web-app</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -100,6 +107,13 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${org.springframework.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jayway.jsonpath</groupId>
+                <artifactId>json-path</artifactId>
+                <version>2.0.0</version>
                 <scope>test</scope>
             </dependency>
 
@@ -150,6 +164,12 @@
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
                 <version>${validation-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.9.8</version>
             </dependency>
 
 
