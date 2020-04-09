@@ -2,6 +2,7 @@ package com.epam.brest.courses;
 
 
 import com.epam.brest.courses.model.Item;
+import com.epam.brest.courses.rest.ItemController;
 import com.epam.brest.courses.service.ItemService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;

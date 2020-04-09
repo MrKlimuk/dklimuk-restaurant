@@ -1,5 +1,6 @@
 package com.epam.brest.courses;
 
+import com.epam.brest.courses.rest.VersionController;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

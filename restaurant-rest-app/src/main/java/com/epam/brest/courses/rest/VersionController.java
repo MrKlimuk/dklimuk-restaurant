@@ -1,4 +1,4 @@
-package com.epam.brest.courses;
+package com.epam.brest.courses.rest;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
