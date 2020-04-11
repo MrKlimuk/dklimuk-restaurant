@@ -3,6 +3,7 @@ package com.epam.brest.rest;
 import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.rest.ItemController;
 import com.epam.brest.courses.rest.exception.CustomExceptionHandler;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -28,8 +29,7 @@ import java.util.Optional;
 
 import static com.epam.brest.courses.constants.ItemConstants.ITEM_NAME_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -189,8 +189,17 @@ public class ItemControllerIT {
             return objectMapper.readValue(response.getContentAsString(), Integer.class);
         }
 
-        public int update(Item item) {
-            return 0;
+        public int update(Item item) throws Exception {
+
+            LOGGER.debug("item({})", item);
+            MockHttpServletResponse response =
+                    mockMvc.perform(put(ITEMS_ENDPOINT)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(item))
+                            .accept(MediaType.APPLICATION_JSON)
+                    ).andExpect(status().isOk())
+                            .andReturn().getResponse();
+            return objectMapper.readValue(response.getContentAsString(), Integer.class);
         }
 
         public int delete(Integer itemId) {

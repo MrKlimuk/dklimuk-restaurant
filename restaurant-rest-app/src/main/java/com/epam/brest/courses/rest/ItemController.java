@@ -48,4 +48,12 @@ public class ItemController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
+    @PutMapping(value = "/items", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<Integer> updateItem(@RequestBody Item item) {
+
+        LOGGER.debug("updateItem({})", item);
+        int result = itemService.updateItem(item);
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
 }
