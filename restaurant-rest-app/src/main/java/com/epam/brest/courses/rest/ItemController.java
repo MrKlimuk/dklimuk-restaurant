@@ -2,14 +2,20 @@ package com.epam.brest.courses.rest;
 
 
 import com.epam.brest.courses.model.Item;
+import com.epam.brest.courses.rest.exception.ItemNotFoundException;
 import com.epam.brest.courses.service.ItemService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(value = "/api")
+@RestController
 public class ItemController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
 
     private final ItemService itemService;
 
@@ -20,6 +26,26 @@ public class ItemController {
 
     @GetMapping(value = "/items")
     public final List<Item> items(){
+
+        LOGGER.debug("items()");
+
         return itemService.findAllItem();
     }
+
+    @GetMapping("/items/{id}")
+    public Item findById(@PathVariable Integer id){
+
+        LOGGER.debug("find item by id({})", id);
+
+        return itemService.findItemById(id).orElseThrow(() -> new ItemNotFoundException(id));
+    }
+
+
+   @PostMapping(path = "/items", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Integer> add(@RequestBody Item item) {
+        LOGGER.debug("createItem({})", item);
+        Integer id = itemService.createItem(item);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
 }

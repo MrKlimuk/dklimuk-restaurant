@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS ordertable;
 CREATE TABLE ordertable (
   order_id INT NOT NULL AUTO_INCREMENT,
   order_name VARCHAR(20) NOT NULL UNIQUE,
-  order_price INT,
+  order_price INT DEFAULT 0,
   PRIMARY KEY (order_id)
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE position (
 position_id INT NOT NULL AUTO_INCREMENT,
 position_order_id INT NOT NULL,
 position_name VARCHAR(255) NOT NULL,
-position_price INT NOT NULL,
+position_price INT DEFAULT 0,
 position_count INT NOT NULL,
 PRIMARY KEY (position_id),
 FOREIGN KEY (position_order_id) REFERENCES ordertable(order_id) ON DELETE CASCADE

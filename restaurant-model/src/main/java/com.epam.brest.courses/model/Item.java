@@ -8,6 +8,11 @@ public class Item {
     private String itemName;
     private BigDecimal itemPrice;
 
+    public Item() {
+    }
+    public Item(String itemName) {
+    }
+
     public Integer getItemId() {
         return itemId;
     }
