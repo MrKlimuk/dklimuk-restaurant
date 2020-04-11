@@ -1,4 +1,4 @@
-package com.epam.brest.courses;
+package com.epam.brest.rest;
 
 import com.epam.brest.courses.rest.VersionController;
 import org.hamcrest.Matchers;
