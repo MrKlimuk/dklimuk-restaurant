@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -64,9 +65,9 @@ public class ItemControllerIT {
     @Test
     public void shouldFindAllItems() throws Exception {
 
-        List<Item> departments = itemService.findAll();
-        assertNotNull(departments);
-        assertTrue(departments.size() > 0);
+        List<Item> items = itemService.findAll();
+        assertNotNull(items);
+        assertTrue(items.size() > 0);
     }
 
     @Test
@@ -77,6 +78,8 @@ public class ItemControllerIT {
                 .setItemName(RandomStringUtils.randomAlphabetic(ITEM_NAME_SIZE))
                 .setItemPrice(ITEM_PRICE);
         Integer id = itemService.create(item);
+
+        assertNotNull(id);
 
         // when
         Optional<Item> optionalItem = itemService.findById(id);
@@ -163,8 +166,14 @@ public class ItemControllerIT {
         return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Item>>() {});
         }
 
-        public Optional<Item> findById(Integer itemId) {
-            return Optional.empty();
+        public Optional<Item> findById(Integer itemId) throws Exception {
+            LOGGER.debug("findById({})", itemId);
+            MockHttpServletResponse response = mockMvc.perform(get(ITEMS_ENDPOINT + "/" + itemId)
+                    .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk())
+                    .andReturn().getResponse();
+            return Optional.of(objectMapper.readValue(response.getContentAsString(), Item.class));
+
         }
 
         public Integer create(Item item) throws Exception {
