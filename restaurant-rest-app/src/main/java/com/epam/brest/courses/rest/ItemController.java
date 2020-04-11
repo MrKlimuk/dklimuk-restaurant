@@ -56,4 +56,11 @@ public class ItemController {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/items/{id}", produces = {"application/json"})
+    public ResponseEntity<Integer> deleteItem(@PathVariable Integer id) {
+
+        int result = itemService.deleteItem(id);
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
 }
