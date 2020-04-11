@@ -3,7 +3,7 @@ package com.epam.brest.rest;
 import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.rest.ItemController;
 import com.epam.brest.courses.rest.exception.CustomExceptionHandler;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.epam.brest.courses.rest.exception.ErrorResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -23,12 +23,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import static com.epam.brest.courses.constants.ItemConstants.ITEM_NAME_SIZE;
+import static com.epam.brest.courses.rest.exception.CustomExceptionHandler.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,7 +41,7 @@ public class ItemControllerIT {
 
     public static final String ITEMS_ENDPOINT = "/items";
     private final BigDecimal ITEM_PRICE = new BigDecimal(100);
-    private final BigDecimal ITEM_PRICE_FOR_UPDATE = new BigDecimal(100);
+    private final BigDecimal ITEM_PRICE_FOR_UPDATE = new BigDecimal(10);
 
 
     @Autowired
@@ -147,15 +147,57 @@ public class ItemControllerIT {
 
         // when
         int result = itemService.delete(id);
-//
-//        // then
-//        assertTrue(1 == result);
-//
-//        List<Item> currentItem = itemService.findAll();
-//        assertNotNull(currentItem);
-//
-//        assertTrue(items.size()-1 == currentItem.size());
+
+        // then
+        assertTrue(1 == result);
+
+        List<Item> currentItem = itemService.findAll();
+        assertNotNull(currentItem);
+
+        assertTrue(items.size()-1 == currentItem.size());
     }
+
+    @Test
+    public void shouldReturnItemNotFoundError() throws Exception {
+
+        LOGGER.debug("shouldReturnItemNotFoundError()");
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get(ITEMS_ENDPOINT + "/999999")
+                        .accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isNotFound())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        ErrorResponse errorResponse = objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
+        assertNotNull(errorResponse);
+        assertEquals(errorResponse.getMessage(), ITEM_NOT_FOUND);
+    }
+
+    @Test
+    public void shouldFailOnCreateItemWithDuplicateName() throws Exception {
+        Item item1 = new Item()
+                .setItemName(RandomStringUtils.randomAlphabetic(ITEM_NAME_SIZE))
+                .setItemPrice(ITEM_PRICE);
+        Integer id = itemService.create(item1);
+        assertNotNull(id);
+
+        Item item2 = new Item()
+                .setItemName(item1.getItemName())
+                .setItemPrice(ITEM_PRICE);
+
+        MockHttpServletResponse response =
+                mockMvc.perform(post(ITEMS_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(item2))
+                        .accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isUnprocessableEntity())
+                        .andReturn().getResponse();
+
+        assertNotNull(response);
+        ErrorResponse errorResponse = objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
+        assertNotNull(errorResponse);
+        assertEquals(errorResponse.getMessage(), VALIDATION_ERROR);
+    }
+
 
     class MockMvcItemService {
 
