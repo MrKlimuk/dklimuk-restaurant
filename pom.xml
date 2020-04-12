@@ -17,6 +17,7 @@
         <module>restaurant-service-api</module>
         <module>restaurant-web-app</module>
         <module>restaurant-rest-app</module>
+        <module>restaurant-service-rest</module>
     </modules>
 
 
@@ -57,6 +58,12 @@
             <dependency>
                 <groupId>com.epam.brest.courses</groupId>
                 <artifactId>restaurant-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.courses</groupId>
+                <artifactId>restaurant-service-rest</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
