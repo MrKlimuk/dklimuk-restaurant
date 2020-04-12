@@ -3,6 +3,7 @@ package com.epam.brest.courses.service_rest;
 
 import com.epam.brest.courses.model.Item;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,9 +23,11 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static com.epam.brest.courses.constants.ItemConstants.ITEM_NAME_SIZE;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
@@ -36,6 +39,8 @@ public class ItemServiceRestTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemServiceRest.class);
 
     public static final String URL = "http://localhost:8088/items";
+
+    private final BigDecimal ITEM_PRICE = new BigDecimal(100);
 
     @Autowired
     RestTemplate restTemplate;
@@ -55,7 +60,7 @@ public class ItemServiceRestTest {
     @Test
     public void shouldFindAllItems() throws Exception {
 
-        LOGGER.debug("shouldFindAllEmployees()");
+        LOGGER.debug("shouldFindAllItem()");
         // given
         mockServer.expect(ExpectedCount.once(), requestTo(new URI(URL)))
                 .andExpect(method(HttpMethod.GET))
@@ -65,12 +70,40 @@ public class ItemServiceRestTest {
                 );
 
         // when
-        List<Item> employees = itemServiceRest.findAllItem();
+        List<Item> items = itemServiceRest.findAllItem();
 
         // then
         mockServer.verify();
-        assertNotNull(employees);
-        assertTrue(employees.size() > 0);
+        assertNotNull(items);
+        assertTrue(items.size() > 0);
+    }
+
+    @Test
+    public void shouldFindItemById() throws Exception {
+
+        // given
+        Integer id = 1;
+        Item item = new Item()
+                .setItemId(id)
+                .setItemName(RandomStringUtils.randomAlphabetic(ITEM_NAME_SIZE))
+                .setItemPrice(ITEM_PRICE);
+
+        mockServer.expect(ExpectedCount.once(), requestTo(new URI(URL + "/" + id)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(item))
+                );
+
+        // when
+        Optional<Item> itemOptional = itemServiceRest.findItemById(id);
+
+        // then
+        mockServer.verify();
+        assertTrue(itemOptional.isPresent());
+        assertEquals(itemOptional.get().getItemId(), id);
+        assertEquals(itemOptional.get().getItemName(), item.getItemName());
+        assertEquals(itemOptional.get().getItemPrice(), item.getItemPrice());
     }
 
 
