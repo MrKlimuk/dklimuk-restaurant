@@ -106,6 +106,87 @@ public class ItemServiceRestTest {
         assertEquals(itemOptional.get().getItemPrice(), item.getItemPrice());
     }
 
+    @Test
+    public void shouldCreateItem() throws Exception {
+
+        LOGGER.debug("shouldCreateItem()");
+        // given
+        Item item = new Item()
+                .setItemName(RandomStringUtils.randomAlphabetic(ITEM_NAME_SIZE))
+                .setItemPrice(ITEM_PRICE);
+
+        mockServer.expect(ExpectedCount.once(), requestTo(new URI(URL)))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString("1"))
+                );
+        // when
+        Integer id = itemServiceRest.createItem(item);
+
+        // then
+        mockServer.verify();
+        assertNotNull(id);
+    }
+
+
+    @Test
+    public void shouldUpdateItem() throws Exception {
+
+        // given
+        Integer id = 1;
+        Item item = new Item()
+                .setItemId(id)
+                .setItemName(RandomStringUtils.randomAlphabetic(ITEM_NAME_SIZE))
+                .setItemPrice(ITEM_PRICE);
+
+        mockServer.expect(ExpectedCount.once(), requestTo(new URI(URL)))
+                .andExpect(method(HttpMethod.PUT))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString("1"))
+                );
+
+        mockServer.expect(ExpectedCount.once(), requestTo(new URI(URL + "/" + id)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(item))
+                );
+
+        // when
+        int result = itemServiceRest.updateItem(item);
+        Optional<Item> updatedItemOptional = itemServiceRest.findItemById(id);
+
+        // then
+        mockServer.verify();
+        assertTrue(1 == result);
+
+        assertTrue(updatedItemOptional.isPresent());
+        assertEquals(updatedItemOptional.get().getItemId(), id);
+        assertEquals(updatedItemOptional.get().getItemName(), item.getItemName());
+        assertEquals(updatedItemOptional.get().getItemPrice(), item.getItemPrice());
+    }
+
+    @Test
+    public void shouldDeleteItem() throws Exception {
+
+        // given
+        Integer id = 1;
+        mockServer.expect(ExpectedCount.once(), requestTo(new URI(URL + "/" + id)))
+                .andExpect(method(HttpMethod.DELETE))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString("1"))
+                );
+        // when
+        int result = itemServiceRest.deleteItem(id);
+
+        // then
+        mockServer.verify();
+        assertTrue(1 == result);
+    }
+
 
     private Item create(int index) {
         Item item = new Item();
@@ -114,4 +195,6 @@ public class ItemServiceRestTest {
         item.setItemPrice(new BigDecimal(100));
         return item;
     }
+
+
 }
