@@ -137,19 +137,19 @@ public class OrderControllerIT {
         Integer id = mockMvcOrderService.create(order);
         assertNotNull(id);
 
-//        List<Order> orders = mockMvcOrderService.findAll();
-//        assertNotNull(order);
-//
-//        // when
-//        int result = mockMvcOrderService.delete(id);
-//
-//        // then
-//        assertTrue(1 == result);
-//
-//        List<Order> currentOrder = mockMvcOrderService.findAll();
-//        assertNotNull(currentOrder);
-//
-//        assertTrue(orders.size()-1 == currentOrder.size());
+        List<Order> orders = mockMvcOrderService.findAll();
+        assertNotNull(order);
+
+        // when
+        int result = mockMvcOrderService.delete(id);
+
+        // then
+        assertTrue(1 == result);
+
+        List<Order> currentOrder = mockMvcOrderService.findAll();
+        assertNotNull(currentOrder);
+
+        assertTrue(orders.size()-1 == currentOrder.size());
     }
 
 

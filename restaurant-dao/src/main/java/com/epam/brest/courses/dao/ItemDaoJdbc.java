@@ -34,6 +34,8 @@ public class ItemDaoJdbc implements ItemDao {
     @Value("${item.delete}")
     private String deleteItemSql;
 
+    private static final String CHECK_COUNT_NAME = "select count(item_id) from item where lower(item_name) = lower(:itemName)";
+
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public ItemDaoJdbc(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -58,12 +60,22 @@ public class ItemDaoJdbc implements ItemDao {
 
     @Override
     public Integer create(Item item) {
+        if (!isNameUnique(item)) {
+            throw new IllegalArgumentException("Item with the same name already exists in DB.");
+        }
         MapSqlParameterSource  params = new MapSqlParameterSource();
         params.addValue(ITEM_NAME, item.getItemName());
         params.addValue(ITEM_PRICE, item.getItemPrice());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(createItemSql, params, keyHolder);
         return keyHolder.getKey().intValue();
+    }
+
+    private boolean isNameUnique(Item item) {
+
+        return namedParameterJdbcTemplate.queryForObject(CHECK_COUNT_NAME,
+                new MapSqlParameterSource(ITEM_NAME, item.getItemName()),
+                Integer.class) == 0;
     }
 
     @Override
