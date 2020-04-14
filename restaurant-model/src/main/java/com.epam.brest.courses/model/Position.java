@@ -14,8 +14,9 @@ public class Position {
         return positionId;
     }
 
-    public void setPositionId(Integer positionId) {
+    public Position setPositionId(Integer positionId) {
         this.positionId = positionId;
+        return this;
     }
 
     public Integer getPositionOrderId() {

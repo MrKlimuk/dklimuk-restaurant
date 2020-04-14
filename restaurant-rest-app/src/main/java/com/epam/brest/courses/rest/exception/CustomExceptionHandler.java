@@ -1,5 +1,6 @@
 package com.epam.brest.courses.rest.exception;
 
+import com.epam.brest.courses.model.Position;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,6 +15,7 @@ import java.util.List;
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String ITEM_NOT_FOUND = "item.not_found";
     public static final String ORDER_NOT_FOUND = "order.not_found";
+    public static final String POSITION_NOT_FOUND = "position.not_found";
     public static final String VALIDATION_ERROR = "validation_error";
 
     @ExceptionHandler(ItemNotFoundException.class)
@@ -29,6 +31,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse(ORDER_NOT_FOUND, details);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PositionNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleUserOrderNotFoundException (PositionNotFoundException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse(POSITION_NOT_FOUND, details);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
