@@ -1,5 +1,6 @@
 package com.epam.brest.courses.dao;
 
+import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.model.Order;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.support.DataAccessUtils;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.epam.brest.courses.constants.ItemConstants.ITEM_NAME;
 import static com.epam.brest.courses.constants.OrderConstants.ORDER_ID;
 import static com.epam.brest.courses.constants.OrderConstants.ORDER_NAME;
 
@@ -35,6 +37,7 @@ public class OrderDaoJdbc implements OrderDao {
     @Value("${ordertable.delete}")
     private String deleteOrderSql;
 
+    private static final String CHECK_COUNT_NAME = "select count(order_id) from ordertable where lower(order_name) = lower(:orderName)";
 
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -60,11 +63,21 @@ public class OrderDaoJdbc implements OrderDao {
 
     @Override
     public Integer createOrder(Order order) {
+        if (!isNameUnique(order)) {
+            throw new IllegalArgumentException("Order with the same name already exists in DB.");
+        }
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue(ORDER_NAME, order.getOrderName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(createOrderSql, params, keyHolder);
         return keyHolder.getKey().intValue();
+    }
+
+    private boolean isNameUnique(Order order) {
+
+        return namedParameterJdbcTemplate.queryForObject(CHECK_COUNT_NAME,
+                new MapSqlParameterSource(ORDER_NAME, order.getOrderName()),
+                Integer.class) == 0;
     }
 
     @Override

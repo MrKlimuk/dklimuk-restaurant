@@ -4,6 +4,7 @@ package com.epam.brest.rest;
 import com.epam.brest.courses.model.Order;
 import com.epam.brest.courses.rest.OrderController;
 import com.epam.brest.courses.rest.exception.CustomExceptionHandler;
+import com.epam.brest.courses.rest.exception.ErrorResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.epam.brest.courses.constants.OrderConstants.ORDER_NAME_SIZE;
+import static com.epam.brest.courses.rest.exception.CustomExceptionHandler.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -150,6 +152,45 @@ public class OrderControllerIT {
         assertNotNull(currentOrder);
 
         assertTrue(orders.size()-1 == currentOrder.size());
+    }
+
+    @Test
+    public void shouldReturnOrderNotFoundError() throws Exception {
+
+        LOGGER.debug("shouldReturnOrderNotFoundError()");
+        MockHttpServletResponse response =
+                mockMvc.perform(MockMvcRequestBuilders.get(ORDERS_ENDPOINT + "/999999")
+                        .accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isNotFound())
+                        .andReturn().getResponse();
+        assertNotNull(response);
+        ErrorResponse errorResponse = objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
+        assertNotNull(errorResponse);
+        assertEquals(errorResponse.getMessage(), ORDER_NOT_FOUND);
+    }
+
+    @Test
+    public void shouldFailOnCreateOrderWithDuplicateName() throws Exception {
+        Order order1 = new Order()
+                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+        Integer id = mockMvcOrderService.create(order1);
+        assertNotNull(id);
+
+        Order order2 = new Order()
+                .setOrderName(order1.getOrderName());
+
+        MockHttpServletResponse response =
+                mockMvc.perform(post(ORDERS_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(order2))
+                        .accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isUnprocessableEntity())
+                        .andReturn().getResponse();
+
+        assertNotNull(response);
+        ErrorResponse errorResponse = objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
+        assertNotNull(errorResponse);
+        assertEquals(errorResponse.getMessage(), VALIDATION_ERROR);
     }
 
 
