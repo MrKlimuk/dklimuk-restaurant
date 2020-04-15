@@ -21,21 +21,29 @@
         <dependency>
             <groupId>com.epam.brest.courses</groupId>
             <artifactId>restaurant-test-db</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.epam.brest.courses</groupId>
             <artifactId>restaurant-dao</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.epam.brest.courses</groupId>
             <artifactId>restaurant-service</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.epam.brest.courses</groupId>
             <artifactId>restaurant-service-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.epam.brest.courses</groupId>
+            <artifactId>restaurant-service-rest</artifactId>
         </dependency>
 
         <dependency>
@@ -62,6 +70,11 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
 
         <dependency>
