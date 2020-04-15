@@ -100,6 +100,14 @@ public class PositionControllerIT {
     }
 
     @Test
+    public void shouldFindPositionByOrderId() throws Exception {
+
+        List<Position> positions = mockMvcPositionService.findByOrderId(1);
+        assertNotNull(positions);
+        assertTrue(positions.size() > 0);
+    }
+
+    @Test
     public void shouldCreatePosition() throws Exception {
         Position position = new Position()
                 .setPositionId(1)
@@ -210,6 +218,15 @@ public class PositionControllerIT {
             ).andExpect(status().isOk())
                     .andReturn().getResponse();
             return Optional.of(objectMapper.readValue(response.getContentAsString(), Position.class));
+
+        }
+        public List<Position> findByOrderId(Integer orderId) throws Exception {
+            LOGGER.debug("findByOrderId({})", orderId);
+            MockHttpServletResponse response = mockMvc.perform(get(POSITIONS_ENDPOINT + "/orderId/" + orderId)
+                    .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk())
+                    .andReturn().getResponse();
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Position>>() {});
 
         }
 

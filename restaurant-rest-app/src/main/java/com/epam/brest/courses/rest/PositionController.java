@@ -37,6 +37,13 @@ public class PositionController {
 
         return positionService.findPositionById(id).orElseThrow(() -> new PositionNotFoundException(id));
     }
+    @GetMapping(value = "/positions/orderId/{orderId}")
+    public List<Position> findPositionByOrderId(@PathVariable Integer orderId){
+
+        LOGGER.debug("find position by order id({})", orderId);
+
+        return positionService.findPositionByOrderId(orderId);
+    }
 
     @PostMapping(path = "/positions", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Integer> create(@RequestBody Position position) {
