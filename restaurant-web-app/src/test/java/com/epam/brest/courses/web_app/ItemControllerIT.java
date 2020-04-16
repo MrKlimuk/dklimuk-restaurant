@@ -136,7 +136,7 @@ public class ItemControllerIT {
                         .param("itemName", item.getItemName())
                         .param("itemPrice", String.valueOf(item.getItemPrice()))
                         .sessionAttr("item", item)
-        )
+        ).andExpect(status().isFound())
                 .andExpect(view().name("redirect:/items"))
                 .andExpect(redirectedUrl("/items"));
 
