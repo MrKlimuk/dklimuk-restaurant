@@ -4,6 +4,9 @@ public class OrderConstants {
     public static final String ORDER_ID = "orderId";
     public static final String ORDER_NAME = "orderName";
     public static final String ORDER_PRICE ="orderPrice";
+    public static final String ORDER_DATE = "orderDate";
+    public static final String ORDER_DATE_START = "orderDateStart";
+    public static final String ORDER_DATE_END = "orderDateEnd";
 
     public static final int ORDER_NAME_SIZE = 20;
 }

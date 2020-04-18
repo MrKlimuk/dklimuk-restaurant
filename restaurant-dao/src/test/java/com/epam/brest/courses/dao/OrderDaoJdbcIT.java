@@ -11,10 +11,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import static com.epam.brest.courses.constants.OrderConstants.ORDER_NAME_SIZE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -24,6 +28,10 @@ public class OrderDaoJdbcIT {
     private final OrderDao orderDao;
     private static BigDecimal PRICE = new BigDecimal(0);
     private static BigDecimal PRICE_FOR_UPDATE = new BigDecimal(50);
+    private final LocalDate DATE = LocalDate.of(2020, 4, 18);
+    private final LocalDate START_DATE = LocalDate.of(2020, 4, 2);
+    private final LocalDate END_DATE = LocalDate.of(2020, 4, 18);
+
 
 
     @Autowired
@@ -42,7 +50,9 @@ public class OrderDaoJdbcIT {
     public void shouldFindOrderById(){
         Order order = new Order()
                 .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
-                .setOrderPrice(PRICE);
+                .setOrderPrice(PRICE)
+                .setOrderDate(DATE);
+
 
         Integer id = orderDao.createOrder(order);
         Optional<Order> orderOptional = orderDao.findOrderById(id);
@@ -51,21 +61,33 @@ public class OrderDaoJdbcIT {
         assertEquals(orderOptional.get().getOrderId(), id);
         assertEquals(orderOptional.get().getOrderName(), order.getOrderName());
         assertEquals(orderOptional.get().getOrderPrice(), order.getOrderPrice());
+        assertEquals(orderOptional.get().getOrderDate(), order.getOrderDate());
     }
 
     @Test
     public void shouldCreateOrder(){
         Order order = new Order()
-                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderDate(DATE);
+
         Integer id = orderDao.createOrder(order);
         assertNotNull(id);
+    }
+
+    @Test
+    public void shouldFindOrderByDate(){
+        List<Order> orders = orderDao.findOrdersByDate(START_DATE, END_DATE);
+
+        assertNotNull(orders);
+        assertFalse(orders.isEmpty());
     }
 
     @Test
     public void shouldUpdateOrder(){
         Order order = new Order()
                 .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
-                .setOrderPrice(PRICE);
+                .setOrderPrice(PRICE)
+                .setOrderDate(DATE);
         Integer id = orderDao.createOrder(order);
         assertNotNull(id);
 
@@ -83,13 +105,17 @@ public class OrderDaoJdbcIT {
         assertEquals(updateOrderOptional.get().getOrderId(), (Integer) 1);
         assertEquals(updateOrderOptional.get().getOrderName(), orderOptional.get().getOrderName());
         assertEquals(updateOrderOptional.get().getOrderPrice(), orderOptional.get().getOrderPrice());
+        assertEquals(updateOrderOptional.get().getOrderDate(), orderOptional.get().getOrderDate());
+        assertEquals(updateOrderOptional.get().getOrderDate(), orderOptional.get().getOrderDate());
 
     }
 
     @Test
     public void shouldDeleteOrder(){
         Order order = new Order().
-                setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+                setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderDate(DATE);
+
         Integer id = orderDao.createOrder(order);
 
         List<Order> orders = orderDao.findAllOrders();

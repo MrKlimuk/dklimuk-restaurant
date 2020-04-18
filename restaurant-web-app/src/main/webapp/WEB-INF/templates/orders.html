@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" >
     <title>Orders</title>
@@ -40,6 +40,7 @@
         <td>№</td>
         <td>Name</td>
         <td>Price</td>
+        <td>Date</td>
         <td>Edit</td>
         <td>Delete</td>
     </tr>
@@ -47,6 +48,8 @@
         <td th:text="${order.orderId}">| Id |</td>
         <td th:text = "${order.orderName}">| Name |</td>
         <td th:text="${order.orderPrice}">| Price |</td>
+        <td th:text="${order.orderDate}">| Date |</td>
+
         <td>
             <a th:href="@{|/orders/edit/${order.orderId}|}">Edit</a>
         </td>

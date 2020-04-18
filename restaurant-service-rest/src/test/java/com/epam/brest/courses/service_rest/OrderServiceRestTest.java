@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +41,7 @@ public class OrderServiceRestTest {
     public static final String URL = "http://localhost:8088/orders";
 
     private final BigDecimal ORDER_PRICE = new BigDecimal(100);
+    private final LocalDate DATE = LocalDate.of(2020, 4, 18);
 
     @Autowired
     RestTemplate restTemplate;
@@ -85,7 +87,8 @@ public class OrderServiceRestTest {
         Order order = new Order()
                 .setOrderId(id)
                 .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
-                .setOrderPrice(ORDER_PRICE);
+                .setOrderPrice(ORDER_PRICE)
+                .setOrderDate(DATE);
 
         mockRestServiceServer.expect(ExpectedCount.once(), requestTo(new URI(URL + "/" + id)))
                 .andExpect(method(HttpMethod.GET))

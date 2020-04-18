@@ -12,10 +12,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import static com.epam.brest.courses.constants.OrderConstants.ORDER_NAME_SIZE;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,6 +29,10 @@ public class OrderServiceImplIT {
     private final OrderService orderService;
     private static BigDecimal PRICE = new BigDecimal(0);
     private static BigDecimal PRICE_FOR_UPDATE = new BigDecimal(50);
+    private final LocalDate DATE = LocalDate.of(2020, 4, 18);
+    private final LocalDate START_DATE = LocalDate.of(2020, 4, 2);
+    private final LocalDate END_DATE = LocalDate.of(2020, 4, 18);
+
 
 
     @Autowired
@@ -44,7 +51,8 @@ public class OrderServiceImplIT {
     public void shouldFindOrderById(){
         Order order = new Order()
                 .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
-                .setOrderPrice(PRICE);
+                .setOrderPrice(PRICE)
+                .setOrderDate(DATE);
 
         Integer id = orderService.createOrder(order);
         Optional<Order> orderOptional = orderService.findOrderById(id);
@@ -56,9 +64,18 @@ public class OrderServiceImplIT {
     }
 
     @Test
+    public void shouldFindOrderByDate(){
+        List<Order> orders = orderService.findOrdersByDate(START_DATE, END_DATE);
+
+        assertNotNull(orders);
+        assertFalse(orders.isEmpty());
+    }
+
+    @Test
     public void shouldCreateOrder(){
         Order order = new Order()
-                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderDate(DATE);
         Integer id = orderService.createOrder(order);
         assertNotNull(id);
     }
@@ -66,7 +83,8 @@ public class OrderServiceImplIT {
     @Test
     public void shouldUpdateOrder(){
         Order order = new Order()
-                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderDate(DATE);
         Integer id = orderService.createOrder(order);
         assertNotNull(id);
 
@@ -90,7 +108,8 @@ public class OrderServiceImplIT {
     @Test
     public void shouldDeleteOrder(){
         Order order = new Order().
-                setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+                setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderDate(DATE);
         Integer id = orderService.createOrder(order);
 
         List<Order> orders = orderService.findAllOrders();

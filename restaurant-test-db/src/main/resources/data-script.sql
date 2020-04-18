@@ -7,9 +7,9 @@ INSERT INTO item (item_id, item_name, item_price) VALUES (6, 'Whiskey', 50);
 INSERT INTO item (item_id, item_name, item_price) VALUES (7, 'Water', 5);
 
 
-INSERT INTO ordertable (order_id, order_name, order_price) VALUES (1, 'Table #1', 40);
-INSERT INTO ordertable (order_id, order_name, order_price) VALUES (2, 'Reserved', 210);
-INSERT INTO ordertable (order_id, order_name, order_price) VALUES (3, 'Garden', 10);
+INSERT INTO ordertable (order_id, order_name, order_price, order_date) VALUES (1, 'Table #1', 40,'2020-04-15');
+INSERT INTO ordertable (order_id, order_name, order_price, order_date) VALUES (2, 'Reserved', 210, '2020-04-13');
+INSERT INTO ordertable (order_id, order_name, order_price, order_date) VALUES (3, 'Garden', 10, '2020-04-18');
 
 
 

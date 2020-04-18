@@ -11,14 +11,14 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.epam.brest.courses.constants.ItemConstants.ITEM_NAME;
-import static com.epam.brest.courses.constants.OrderConstants.ORDER_ID;
-import static com.epam.brest.courses.constants.OrderConstants.ORDER_NAME;
+import static com.epam.brest.courses.constants.OrderConstants.*;
 
 public class OrderDaoJdbc implements OrderDao {
 
@@ -36,6 +36,9 @@ public class OrderDaoJdbc implements OrderDao {
 
     @Value("${ordertable.delete}")
     private String deleteOrderSql;
+
+    @Value("${ordertable.findOrdersByDate}")
+    private String findOrderByDateSql;
 
     private static final String CHECK_COUNT_NAME = "select count(order_id) from ordertable where lower(order_name) = lower(:orderName)";
 
@@ -62,12 +65,25 @@ public class OrderDaoJdbc implements OrderDao {
     }
 
     @Override
+    public List<Order> findOrdersByDate(LocalDate startDate, LocalDate endDate) {
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue(ORDER_DATE_START, startDate);
+        mapSqlParameterSource.addValue(ORDER_DATE_END, endDate);
+
+        List<Order> orders = namedParameterJdbcTemplate.query(findOrderByDateSql, mapSqlParameterSource,
+                BeanPropertyRowMapper.newInstance(Order.class));
+
+        return orders;
+    }
+
+    @Override
     public Integer createOrder(Order order) {
         if (!isNameUnique(order)) {
             throw new IllegalArgumentException("Order with the same name already exists in DB.");
         }
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue(ORDER_NAME, order.getOrderName());
+        params.addValue(ORDER_DATE, order.getOrderDate());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(createOrderSql, params, keyHolder);
         return keyHolder.getKey().intValue();

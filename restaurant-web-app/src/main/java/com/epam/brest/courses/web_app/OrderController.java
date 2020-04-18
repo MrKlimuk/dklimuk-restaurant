@@ -11,10 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,10 +53,19 @@ public class OrderController {
     }
 
     @PostMapping(value = "/orderAdd")
-    public String addOrder(@Valid Order order){
-        Integer id = orderService.createOrder(order);
+    public String addOrder(@ModelAttribute("orderDateString") String dateString,
+                          @Valid Order order, BindingResult result){
 
-        return "redirect:/orders/edit/" +id;
+        LocalDate date;
+        date = LocalDate.parse(dateString);
+        order.setOrderDate(date);
+        if (result.hasErrors()) {
+            return "orderAdd";
+        } else {
+            Integer id = orderService.createOrder(order);
+
+            return "redirect:/orders/edit/" + id;
+        }
     }
 
     @GetMapping(value = "orders/edit/{id}")

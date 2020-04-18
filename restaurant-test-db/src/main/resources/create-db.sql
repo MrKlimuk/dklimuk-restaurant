@@ -3,6 +3,8 @@ CREATE TABLE ordertable (
   order_id INT NOT NULL AUTO_INCREMENT,
   order_name VARCHAR(20) NOT NULL UNIQUE,
   order_price INT DEFAULT 0,
+  order_date DATE NOT NULL,
+
   PRIMARY KEY (order_id)
 );
 

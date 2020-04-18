@@ -22,9 +22,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +47,7 @@ public class OrderControllerIT {
 
     private final BigDecimal ORDER_PRICE = new BigDecimal(100);
     private final BigDecimal ORDER_PRICE_FOR_UPDATE = new BigDecimal(10);
+    private final LocalDate DATE = LocalDate.of(2020, 4, 18);
 
     @Autowired
     private OrderController orderController;
@@ -78,10 +81,11 @@ public class OrderControllerIT {
     @Test
     public void shouldFindOrderById() throws Exception {
 
-        // given
+        // givenq
         Order order = new Order()
                 .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
-                .setOrderPrice(new BigDecimal(0));
+                .setOrderPrice(new BigDecimal(0))
+                .setOrderDate(DATE);
         Integer id = mockMvcOrderService.create(order);
 
         assertNotNull(id);
@@ -99,7 +103,9 @@ public class OrderControllerIT {
     @Test
     public void shouldCreateOrder() throws Exception {
         Order order = new Order()
-                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderDate(DATE);
+
         Integer id = mockMvcOrderService.create(order);
         assertNotNull(id);
     }
@@ -109,7 +115,9 @@ public class OrderControllerIT {
 
         // given
         Order order = new Order()
-                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderDate(DATE);
+
         Integer id = mockMvcOrderService.create(order);
         assertNotNull(id);
 
@@ -135,7 +143,9 @@ public class OrderControllerIT {
     public void shouldDeleteOrder() throws Exception {
         // given
         Order order = new Order()
-                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderDate(DATE);
+
         Integer id = mockMvcOrderService.create(order);
         assertNotNull(id);
 
@@ -172,7 +182,9 @@ public class OrderControllerIT {
     @Test
     public void shouldFailOnCreateOrderWithDuplicateName() throws Exception {
         Order order1 = new Order()
-                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE));
+                .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
+                .setOrderDate(DATE);
+
         Integer id = mockMvcOrderService.create(order1);
         assertNotNull(id);
 

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import static com.epam.brest.courses.constants.OrderConstants.ORDER_NAME_SIZE;
 import static org.hamcrest.Matchers.*;
@@ -31,6 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(locations = {"classpath:app-context-test.xml"})
 @Transactional
 public class OrderControllerIT {
+
+    private final LocalDate DATE = LocalDate.of(2020, 4, 18);
 
     @Autowired
     private WebApplicationContext wac;
@@ -84,7 +87,8 @@ public class OrderControllerIT {
         Order order = new Order()
                 .setOrderId(4)
                 .setOrderName(RandomStringUtils.randomAlphabetic(ORDER_NAME_SIZE))
-                .setOrderPrice(new BigDecimal(10));
+                .setOrderPrice(new BigDecimal(10))
+                .setOrderDate(DATE);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/orderAdd")
@@ -92,10 +96,11 @@ public class OrderControllerIT {
                         .param("orderId", String.valueOf(order.getOrderId()))
                         .param("orderName", order.getOrderName())
                         .param("orderPrice", String.valueOf(order.getOrderPrice()))
-                        .sessionAttr("order", order)
+                        .param("orderDateString", String.valueOf(order.getOrderDate()))
+                        .sessionAttr("order", order).sessionAttr("order", order)
         ).andExpect(status().isFound())
-                .andExpect(view().name("redirect:/orders/edit/" + String.valueOf(order.getOrderId()) ))
-                .andExpect(redirectedUrl("/orders/edit/" + String.valueOf(order.getOrderId())));
+                .andExpect(view().name("redirect:/orders/edit/" + String.valueOf(order.getOrderId())))
+                .andExpect(redirectedUrl("/orders/edit/" + String.valueOf(order.getOrderId()) + "?orderDateString=2020-04-18"));
     }
 
     @Test

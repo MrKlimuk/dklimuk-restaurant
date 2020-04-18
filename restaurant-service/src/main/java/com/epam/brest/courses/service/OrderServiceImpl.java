@@ -6,6 +6,7 @@ import com.epam.brest.courses.model.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Optional<Order> findOrderById(Integer orderId) {
         return orderDao.findOrderById(orderId);
+    }
+
+    @Override
+    public List<Order> findOrdersByDate(LocalDate startDate, LocalDate endDate) {
+        return orderDao.findOrdersByDate(startDate, endDate);
     }
 
     @Override

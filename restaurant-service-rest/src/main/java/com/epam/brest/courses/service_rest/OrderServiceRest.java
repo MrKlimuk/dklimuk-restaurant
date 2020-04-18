@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,11 @@ public class OrderServiceRest implements OrderService {
         ResponseEntity<Order> responseEntity =
                 restTemplate.getForEntity(url + "/" + orderId, Order.class);
         return Optional.ofNullable(responseEntity.getBody());
+    }
+
+    @Override
+    public List<Order> findOrdersByDate(LocalDate startDate, LocalDate endDate) {
+        return null;
     }
 
     @Override
