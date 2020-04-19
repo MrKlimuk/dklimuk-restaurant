@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +43,8 @@ public class OrderServiceRestTest {
 
     private final BigDecimal ORDER_PRICE = new BigDecimal(100);
     private final LocalDate DATE = LocalDate.of(2020, 4, 18);
+    private final LocalDate START_DATE = LocalDate.of(2020, 4, 2);
+    private final LocalDate END_DATE = LocalDate.of(2020, 4, 18);
 
     @Autowired
     RestTemplate restTemplate;
@@ -106,6 +109,27 @@ public class OrderServiceRestTest {
         assertEquals(orderOptional.get().getOrderId(), id);
         assertEquals(orderOptional.get().getOrderName(), order.getOrderName());
         assertEquals(orderOptional.get().getOrderPrice(), order.getOrderPrice());
+    }
+
+    @Test
+    public void shouldFindOrderByDate() throws Exception {
+        LOGGER .debug("shouldFindOrderByDate()");
+
+
+        mockRestServiceServer.expect(ExpectedCount.once(), requestTo(new URI(URL + "/search/" + START_DATE + "/" + END_DATE)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(Arrays.asList(create(0), create(1))))
+                );
+
+        // when
+        List<Order> orders = orderServiceRest.findOrdersByDate(START_DATE, END_DATE);
+
+        // then
+        mockRestServiceServer.verify();
+        assertNotNull(orders);
+        assertTrue(orders.size() > 0);
     }
 
     @Test

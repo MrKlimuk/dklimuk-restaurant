@@ -34,6 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class OrderControllerIT {
 
     private final LocalDate DATE = LocalDate.of(2020, 4, 18);
+    private final LocalDate START_DATE = LocalDate.of(2020, 4, 10);
+    private final LocalDate END_DATE = LocalDate.of(2020, 4, 18);
 
     @Autowired
     private WebApplicationContext wac;
@@ -79,6 +81,19 @@ public class OrderControllerIT {
                 .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
                 .andExpect(view().name("orderAdd")
                 );
+    }
+
+    @Test
+    public void shouldFindOrderByDate() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/searchByDate")
+                        .param("startDateString", String.valueOf(START_DATE))
+//                        .param("endDateString", String.valueOf(END_DATE))
+                        )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF8"))
+                .andExpect(MockMvcResultMatchers.view().name("orders"));
     }
 
     @Test

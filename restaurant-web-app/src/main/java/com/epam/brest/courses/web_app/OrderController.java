@@ -48,13 +48,16 @@ public class OrderController {
 
         try {
             startDate = LocalDate.parse(startDateString);
-            endDate = LocalDate.parse(endDateString);
         } catch (Exception ex){
             startDate = LocalDate.of(2000, 1 , 1);
-//            endDate = LocalDate.now();
-//            endDate = LocalDate.of(2030, 1, 1);
+        }
+
+        try{
+            endDate = LocalDate.parse(endDateString);
+        } catch (Exception ex){
             endDate = LocalDate.now();
         }
+
         List<Order> orders = orderService.findOrdersByDate(startDate, endDate);
         model.addAttribute("orders", orders);
         return "orders";
@@ -72,13 +75,17 @@ public class OrderController {
                           @Valid Order order, BindingResult result){
 
         LocalDate date;
-        date = LocalDate.parse(dateString);
+        try {
+            date = LocalDate.parse(dateString);
+        } catch (Exception ex) {
+            date = LocalDate.now();
+        }
+
         order.setOrderDate(date);
         if (result.hasErrors()) {
             return "orderAdd";
         } else {
             Integer id = orderService.createOrder(order);
-
             return "redirect:/orders/edit/" + id;
         }
     }
