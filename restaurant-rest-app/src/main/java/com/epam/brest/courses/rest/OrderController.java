@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -38,6 +39,20 @@ public class OrderController {
 
         return orderService.findOrderById(id).orElseThrow(() -> new OrderNotFoundException(id));
     }
+
+    @GetMapping("orders/search/{startDate}/{endDate}")
+    public List<Order> findOrderByDate(@PathVariable("startDate") String startDateStr,
+                                       @PathVariable("endDate") String endDateStr){
+        LOGGER.debug("findOrderByDate({},{})", startDateStr, endDateStr);
+
+        LocalDate startDate = LocalDate.parse(startDateStr);
+        LocalDate endDate = LocalDate.parse(endDateStr);
+
+        return orderService.findOrdersByDate(startDate, endDate);
+
+    }
+
+
 
 
     @PostMapping(path = "/orders", consumes = "application/json", produces = "application/json")

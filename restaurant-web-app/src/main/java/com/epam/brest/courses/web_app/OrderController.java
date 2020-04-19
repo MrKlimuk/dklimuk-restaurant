@@ -40,15 +40,30 @@ public class OrderController {
         return "orders";
     }
 
-    @GetMapping(value = "/orders/delete/{id}")
-    public String deleteOrder(@PathVariable("id") Integer orderId){
-        orderService.delete(orderId);
-        return "redirect:/orders";
+    @PostMapping(value = "/searchByDate")
+    public String searchOrderByDate(@ModelAttribute("startDateString") String startDateString,
+                                    @ModelAttribute("endDateString") String endDateString,
+                                    Model model){
+        LocalDate startDate, endDate;
+
+        try {
+            startDate = LocalDate.parse(startDateString);
+            endDate = LocalDate.parse(endDateString);
+        } catch (Exception ex){
+            startDate = LocalDate.of(2000, 1 , 1);
+//            endDate = LocalDate.now();
+//            endDate = LocalDate.of(2030, 1, 1);
+            endDate = LocalDate.now();
+        }
+        List<Order> orders = orderService.findOrdersByDate(startDate, endDate);
+        model.addAttribute("orders", orders);
+        return "orders";
+
     }
+
 
     @GetMapping(value = "/order/add")
     public String goToAddOrder(){
-
     return "orderAdd";
     }
 
@@ -67,6 +82,9 @@ public class OrderController {
             return "redirect:/orders/edit/" + id;
         }
     }
+
+
+
 
     @GetMapping(value = "orders/edit/{id}")
     public String goToEditOrderPage(@PathVariable("id") Integer id,
@@ -119,4 +137,9 @@ public class OrderController {
         return "redirect:"+url;
     }
 
+    @GetMapping(value = "/orders/delete/{id}")
+    public String deleteOrder(@PathVariable("id") Integer orderId){
+        orderService.delete(orderId);
+        return "redirect:/orders";
+    }
 }

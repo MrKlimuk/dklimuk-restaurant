@@ -43,7 +43,10 @@ public class OrderServiceRest implements OrderService {
 
     @Override
     public List<Order> findOrdersByDate(LocalDate startDate, LocalDate endDate) {
-        return null;
+
+        LOGGER.debug("findOrderByDate({}, {})", startDate, endDate);
+        ResponseEntity responseEntity = restTemplate.getForEntity(url + "/search/" + startDate + "/" + endDate, List.class);
+        return (List<Order>) responseEntity.getBody();
     }
 
     @Override

@@ -33,8 +33,6 @@ public class OrderServiceImplIT {
     private final LocalDate START_DATE = LocalDate.of(2020, 4, 2);
     private final LocalDate END_DATE = LocalDate.of(2020, 4, 18);
 
-
-
     @Autowired
     public OrderServiceImplIT(OrderService orderService) {
         this.orderService = orderService;

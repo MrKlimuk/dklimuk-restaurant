@@ -30,6 +30,14 @@
         <td> <a href="orders.html">Orders</a></td>
     </tr>
 </table>
+
+
+<form id="addOrder" action="/searchByDate" method="post">
+    <input type="date"   id="startDate" name="startDateString" />
+    <input type="date"   id="endDate" name="endDateString" />
+    <input type="submit" value="Ok">
+</form>
+
 <br><br>
 <a th:href="@{|/order/add|}">+Add</a></span>
 
