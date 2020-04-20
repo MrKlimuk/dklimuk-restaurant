@@ -2,6 +2,8 @@ package com.epam.brest.courses.web_app;
 
 import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.service.ItemService;
+import com.epam.brest.courses.web_app.validator.ItemValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,9 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemService itemService;
+
+    @Autowired
+    ItemValidator itemValidator;
 
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
@@ -40,9 +45,17 @@ public class ItemController {
     }
 
     @PostMapping(value = "/itemAdd")
-    public String  addItem(@Valid Item item){
-        itemService.createItem(item);
-        return "redirect:/items";
+    public String  addItem(@Valid Item item,
+                           BindingResult result){
+
+        itemValidator.validate(item, result);
+
+        if( result.hasErrors()){
+            return "itemAdd";
+        } else {
+            itemService.createItem(item);
+            return "redirect:/items";
+        }
     }
 
 
@@ -59,6 +72,8 @@ public class ItemController {
     @PostMapping(value = "/itemEdit")
     public String updateItem(@Valid Item item,
                              BindingResult result){
+
+        itemValidator.validate(item, result);
         if(result.hasErrors()){
             return "itemEdit";
         } else {

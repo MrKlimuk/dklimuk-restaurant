@@ -7,6 +7,8 @@ import com.epam.brest.courses.model.Position;
 import com.epam.brest.courses.service.ItemService;
 import com.epam.brest.courses.service.OrderService;
 import com.epam.brest.courses.service.PositionService;
+import com.epam.brest.courses.web_app.validator.OrderValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +28,9 @@ public class OrderController {
     private final OrderService orderService;
     private final ItemService itemService;
     private final PositionService positionService;
+
+    @Autowired
+    OrderValidator orderValidator;
 
     public OrderController(OrderService orderService, ItemService itemService, PositionService positionService) {
         this.orderService = orderService;
@@ -64,7 +69,6 @@ public class OrderController {
 
     }
 
-
     @GetMapping(value = "/order/add")
     public String goToAddOrder(){
     return "orderAdd";
@@ -82,6 +86,9 @@ public class OrderController {
         }
 
         order.setOrderDate(date);
+
+        orderValidator.validate(order, result);
+
         if (result.hasErrors()) {
             return "orderAdd";
         } else {
@@ -89,9 +96,6 @@ public class OrderController {
             return "redirect:/orders/edit/" + id;
         }
     }
-
-
-
 
     @GetMapping(value = "orders/edit/{id}")
     public String goToEditOrderPage(@PathVariable("id") Integer id,
@@ -108,8 +112,14 @@ public class OrderController {
     @PostMapping(value = "/orderEdit")
     public String updateOrder(@Valid Order order,
                               BindingResult result){
-        orderService.update(order);
-        return "redirect:/orders";
+
+        orderValidator.validate(order, result);
+        if(result.hasErrors()){
+            return "redirect:orders/edit/" + String.valueOf(order.getOrderId());
+        } else {
+            orderService.update(order);
+            return "redirect:/orders";
+        }
     }
 
     @GetMapping(value = "/orders/details/{orderId}/add/{id}")
