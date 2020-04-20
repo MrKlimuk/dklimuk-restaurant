@@ -2,7 +2,7 @@ package com.epam.brest.courses.web_app;
 
 import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.service.ItemService;
-import com.epam.brest.courses.web_app.validator.ItemValidator;
+import com.epam.brest.courses.web_app.validators.ItemValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +53,11 @@ public class ItemController {
         if( result.hasErrors()){
             return "itemAdd";
         } else {
-            itemService.createItem(item);
+            try{
+                itemService.createItem(item);
+            } catch (Exception ex){
+                return "redirect:/item/add";
+            }
             return "redirect:/items";
         }
     }
@@ -77,7 +81,12 @@ public class ItemController {
         if(result.hasErrors()){
             return "itemEdit";
         } else {
-            this.itemService.updateItem(item);
+            try{
+                this.itemService.updateItem(item);
+            } catch (Exception ex){
+                return "redirect:items/edit/" + String.valueOf(item.getItemId());
+            }
+
             return "redirect:/items";
         }
     }

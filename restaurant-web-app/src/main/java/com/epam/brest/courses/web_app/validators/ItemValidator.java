@@ -1,4 +1,4 @@
-package com.epam.brest.courses.web_app.validator;
+package com.epam.brest.courses.web_app.validators;
 
 import com.epam.brest.courses.model.Item;
 import org.springframework.stereotype.Component;
@@ -27,6 +27,8 @@ public class ItemValidator implements Validator {
             && item.getItemName().length() > ITEM_NAME_SIZE) {
             errors.rejectValue("itemName", "itemName.maxSize");
         }
+
+
 
 
     }

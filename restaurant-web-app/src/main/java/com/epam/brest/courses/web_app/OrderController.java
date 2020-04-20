@@ -7,7 +7,7 @@ import com.epam.brest.courses.model.Position;
 import com.epam.brest.courses.service.ItemService;
 import com.epam.brest.courses.service.OrderService;
 import com.epam.brest.courses.service.PositionService;
-import com.epam.brest.courses.web_app.validator.OrderValidator;
+import com.epam.brest.courses.web_app.validators.OrderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,8 +92,13 @@ public class OrderController {
         if (result.hasErrors()) {
             return "orderAdd";
         } else {
-            Integer id = orderService.createOrder(order);
-            return "redirect:/orders/edit/" + id;
+            try{
+                Integer id = orderService.createOrder(order);
+                return "redirect:/orders/edit/" + id;
+            } catch (Exception e){
+                return "redirect:order/add";
+            }
+
         }
     }
 
@@ -117,7 +122,11 @@ public class OrderController {
         if(result.hasErrors()){
             return "redirect:orders/edit/" + String.valueOf(order.getOrderId());
         } else {
-            orderService.update(order);
+            try {
+                orderService.update(order);
+            } catch (Exception e) {
+                return "redirect:orders/edit/" + String.valueOf(order.getOrderId());
+            }
             return "redirect:/orders";
         }
     }
