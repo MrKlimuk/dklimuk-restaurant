@@ -28,6 +28,13 @@ public class ItemValidator implements Validator {
             errors.rejectValue("itemName", "itemName.maxSize");
         }
 
+        if(item.getItemPrice().intValue() <= 0){
+            errors.rejectValue("itemPrice", "lessThanZero");
+        }
+
+
+
+
 
 
 

@@ -29,6 +29,9 @@ public class OrderValidator implements Validator {
             errors.rejectValue("orderName", "orderName.maxSize");
         }
 
+        if(order.getOrderPrice().intValue() <= 0){
+            errors.rejectValue("orderPrice", "lessThanZero");
+        }
 
     }
 }
