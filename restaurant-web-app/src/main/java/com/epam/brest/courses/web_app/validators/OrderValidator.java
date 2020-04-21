@@ -8,6 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+
 import static com.epam.brest.courses.constants.OrderConstants.ORDER_NAME_SIZE;
 
 @Component
@@ -29,9 +30,9 @@ public class OrderValidator implements Validator {
             errors.rejectValue("orderName", "orderName.maxSize");
         }
 
-        if(order.getOrderPrice().intValue() <= 0){
-            errors.rejectValue("orderPrice", "lessThanZero");
+        if(order.getOrderPrice() != null
+                && order.getOrderPrice().intValue() < 0){
+            errors.rejectValue("orderPrice", "orderPrice.lessThanZero");
         }
-
     }
 }
