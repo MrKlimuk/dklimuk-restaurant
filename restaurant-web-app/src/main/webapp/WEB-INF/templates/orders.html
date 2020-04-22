@@ -62,17 +62,27 @@
                    data-toggle="tooltip"
                    data-placement="bottom">
                     <i class="fa fa-plus"></i> <span
-                        class="d-none d-sm-inline">Add</span></a>
+                        class="d-none d-sm-inline">Add new order</span></a>
+            </li>
+
+        </ul>
+    </nav>
+    <nav>
+        <ul >
+            <li >
+                <form id="addOrder" action="/searchByDate" method="post">
+                    <label for="startDate">Search by date from</label>
+                    <input type="date"   id="startDate" name="startDateString" />
+                    <label for="endDate">to</label>
+                    <input type="date"   id="endDate" name="endDateString" />
+                    <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                </form>
             </li>
         </ul>
     </nav>
 </header>
 
-<form id="addOrder" action="/searchByDate" method="post">
-    <input type="date"   id="startDate" name="startDateString" />
-    <input type="date"   id="endDate" name="endDateString" />
-    <input type="submit" value="Ok">
-</form>
+
 
 <section id="orders">
     <div class="container-fluid">
@@ -130,6 +140,7 @@
 
 <footer>
     <hr/>
+    <p class="text-center">Restaurant</p>
     <p class="text-center">&copy; 2020</p>
 </footer>
 
