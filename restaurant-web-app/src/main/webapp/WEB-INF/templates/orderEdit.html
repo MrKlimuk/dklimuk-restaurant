@@ -2,7 +2,17 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="../../resources/static/css/font-awesome.min.css"
+          th:href="@{/resources/static/css/font-awesome.min.css}">
+    <link rel="stylesheet"
+          href="../../resources/static/css/bootstrap.css"
+          th:href="@{/resources/static/css/bootstrap.css}">
+    <link rel="stylesheet"
+          href="../../resources/static/css/style.css"
+          th:href="@{/resources/static/css/style.css}">
+    <title>Order</title>
     <style>
         table, th, td {
             border: 1px solid black;
@@ -10,86 +20,154 @@
         }
     </style>
 </head>
+
+
+
 <body>
+<header>
+    <nav class="pl-2 navbar navbar-expand-sm navbar-dark bg-dark text-light  p-0">
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a href="/" class="navbar-brand"><img src="../../resources/static/img/logoRestaurant.svg"
+                                              th:src="@{/resources/static/img/logoRestaurant.svg}"
+                                              height="100" width="100" alt="Restaurant"></a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <a class="nav-item nav-link"
+                   href="orders.html"
+                   th:href="@{/orders}">Orders</a>
+                <a class="nav-item nav-link"
+                   href="items.html"
+                   th:href="@{/items}">Menu</a>
+            </ul>
+        </div>
+    </nav>
+    <nav id="main-header"
+         class="py-1 mb-3 navbar navbar-expand-sm navbar-light bg-light text-dark">
+        <span class="navbar-brand text-uppercase mr-auto">Edit order</span>
+    </nav>
+</header>
 
-<table>
-    <tr>
-        <td> <a href="/orders">Back to orders</a></td>
-    </tr>
-</table>
-<br><br>
 
-Edit order
 <form id="editOrder" th:object="${order}"  action="/orderEdit" method="post">
-    <input  id=" field_orderId" type = "hidden" th:field="*{orderId}" required>
-    <label>Name order: </label>
-    <input  id = "EditOrderName"
-            name="orderName"
-            value="Order"
-            th:field="*{orderName}" required>
-    <input  type="submit" value="Save">
+    <div class="form-group">
+        <input  id=" field_orderId"
+                type = "hidden"
+                th:field="*{orderId}"
+                required>
+    </div>
+    <div class="form-group">
+        <label for="EditOrderName">Order name: </label>
+        <input  id = "EditOrderName"
+                class="form-control"
+                name="orderName"
+                value="Order"
+                th:field="*{orderName}"
+                required>
+        <small id="nameHelp"
+        class="form-text text-muted">Please, enter a unique name.</small>
+    </div>
+    <div class="form-group">
+        <label for="OrderPrice">Order price: </label>
+        <ul class="form-control"
+               id = "OrderPrice"
+               th:text="${order.orderPrice}"></ul>
+    </div>
+    <div class="form-group">
+        <label for="OrderDate">Order date: </label>
+        <ul class="form-control"
+            id = "OrderDate"
+            th:text="${order.orderDate}"></ul>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>
 
 
 <br><br>
 
-<table>
-    <tr>Menu:
-        <td>
-            <tr>
-                <td> № </td>
-                <td> Name </td>
-                <td> Price</td>
-                <td> Add</td>
-            </tr>
-            <tr th:each="item : ${items}">
-                <td th:text="${item.itemId}">|Item Id|</td>
-                <td th:text = "${item.itemName}">|Item Name|</td>
-                <td th:text="${item.itemPrice}">|Item Price|</td>
-                <td>
-                    <a th:href="@{|/orders/details/${order.orderId}/add/${item.itemId}|}">|+|</a>
-                </td>
-            </tr>
-         </td>
-    </tr>
-</table>
+<section id="items">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${items}">
+                            <td th:text="${item.itemName}">Coffee</td>
+                            <td th:text="${item.itemPrice}">1000</td>
+                            <td class="text-right">
+                                <a href="itemEdit.html"
+                                   th:href="@{|/orders/details/${order.orderId}/add/${item.itemId}|}"
+                                   class="btn-sm btn-outline-secondary"
+                                   title="Edit item"
+                                   data-toggle="tooltip"
+                                   data-placement="top">
+                                   <span class="d-none d-md-inline">Add</span></a>
+                            </td>
+                        </tr>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <br><br>
-<table>
-    <tr>
-        <td>Price:</td>
-        <td th:text="${order.orderPrice}"></td>
-    </tr>
-</table>
+
+<section id="positions">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Count</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="position : ${positions}">
+                            <td th:text="${position.positionName}">Position Name</td>
+                            <td th:text="${position.positionPrice}">10</td>
+                            <td th:text="${position.positionCount}">1</td>
+                            <td class="text-right">
+                                <a href="orders.html"
+                                   th:href="@{|/orders/details/${position.positionOrderId}/delete/${position.positionId}|}"
+                                   class="btn-sm btn-outline-secondary"
+                                   title="Delete position"
+                                   data-toggle="tooltip"
+                                   data-placement="top">
+                                    <span class="d-none d-md-inline">Delete</span></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <br><br>
-<table>
 
-    <tr>
-        <td> ID </td>
-        <td> № </td>
-        <td> Name</td>
-        <td> Price</td>
-        <td> Count</td>
-        <td> Delete </td>
-    </tr>
-    <tr th:each = "position : ${positions}">
-        <td th:text="${position.positionId}">PositionId</td>
-        <td th:text="${position.positionOrderId}" id="orderId" >PositionOrderId</td>
-        <td th:text="${position.positionName}">PositionName</td>
-        <td th:text="${position.positionPrice}">PositionPrice</td>
-        <td th:text="${position.positionCount}">PositionCount</td>
 
-        <td>
-        <span>
-              <a th:href="@{|/orders/details/${position.positionOrderId}/delete/${position.positionId}|}">|-Del|</a>
-        </span>
-        </td>
-    </tr>
-    </td>
+<footer>
+    <hr/>
+    <p class="text-center">&copy; 2020</p>
+</footer>
 
-    </tr>
-
-</table>
 </body>
 </html>
