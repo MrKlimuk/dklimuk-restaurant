@@ -4,8 +4,19 @@ import java.math.BigDecimal;
 
 public class Item {
 
+    /**
+     * Item id.
+     */
     private Integer itemId;
+
+    /**
+     * Item name.
+     */
     private String itemName;
+
+    /**
+     * Item price.
+     */
     private BigDecimal itemPrice;
 
     public Item() {

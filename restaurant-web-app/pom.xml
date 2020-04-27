@@ -116,6 +116,10 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
             <!-- Embedded Jetty HTTP Server for testing web application -->
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>

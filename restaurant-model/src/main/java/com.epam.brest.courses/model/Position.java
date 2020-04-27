@@ -4,10 +4,29 @@ import java.math.BigDecimal;
 
 public class Position {
 
+    /**
+     * Position id.
+     */
     private Integer positionId;
+
+    /**
+     * Position order id.
+     */
     private Integer positionOrderId;
+
+    /**
+     * Position name.
+     */
     private String positionName;
+
+    /**
+     * Position price.
+     */
     private BigDecimal positionPrice;
+
+    /**
+     * Position count.
+     */
     private Integer positionCount;
 
     public Integer getPositionId() {

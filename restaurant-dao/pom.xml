@@ -12,15 +12,14 @@
     <artifactId>restaurant-dao</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.epam.brest.courses</groupId>
-            <artifactId>restaurant-test-db</artifactId>
+            <artifactId>restaurant-model</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.epam.brest.courses</groupId>
-            <artifactId>restaurant-model</artifactId>
+            <artifactId>restaurant-test-db</artifactId>
         </dependency>
 
         <dependency>

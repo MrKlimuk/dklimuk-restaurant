@@ -11,8 +11,20 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Order {
+
+    /**
+     * Order id.
+     */
     private Integer orderId;
+
+    /**
+     * Order name.
+     */
     private String orderName;
+
+    /**
+     * Order price.
+     */
     private BigDecimal orderPrice;
 //
     @DateTimeFormat(pattern = "yyyy-MM-dd")
