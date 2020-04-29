@@ -11,6 +11,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for exception handling.
+ */
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String ITEM_NOT_FOUND = "item.not_found";

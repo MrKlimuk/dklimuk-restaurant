@@ -12,18 +12,36 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Rest controller for item.
+ */
 @RestController
 public class ItemController {
 
+    /**
+     * Default logger for item class.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
 
+    /**
+     * Object for communication with the service level
+     */
     private final ItemService itemService;
 
+    /**
+     * Constructor accepts service layer object.
+     * @param itemService
+     */
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
 
     }
 
+    /**
+     * Find all items.
+     *
+     * @return  list with all found items.
+     */
     @GetMapping(value = "/items")
     public final List<Item> items(){
 
@@ -32,6 +50,12 @@ public class ItemController {
         return itemService.findAllItem();
     }
 
+    /**
+     * Find item by id.
+     *
+     * @param id
+     * @return item.
+     */
     @GetMapping("/items/{id}")
     public Item findById(@PathVariable Integer id){
 
@@ -40,7 +64,12 @@ public class ItemController {
         return itemService.findItemById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
 
-
+    /**
+     * Add new item to date base.
+     *
+     * @param item
+     * @return creates item Id.
+     */
    @PostMapping(path = "/items", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Integer> add(@RequestBody Item item) {
         LOGGER.debug("createItem({})", item);
@@ -48,6 +77,11 @@ public class ItemController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
+    /**
+     * Update item.
+     * @param item
+     * @return number of updated records in database.
+     */
     @PutMapping(value = "/items", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<Integer> updateItem(@RequestBody Item item) {
 
@@ -56,6 +90,12 @@ public class ItemController {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
+    /**
+     * Delete item from database.
+     *
+     * @param id
+     * @return number of deleted records in database.
+     */
     @DeleteMapping(value = "/items/{id}", produces = {"application/json"})
     public ResponseEntity<Integer> deleteItem(@PathVariable Integer id) {
 

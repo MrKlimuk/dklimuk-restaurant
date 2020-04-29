@@ -18,7 +18,7 @@ public interface PositionDao {
     List<Position> findAllPosition();
 
     /**
-     * Find position bu id.
+     * Find position by id.
      *
      * @param positionId position id.
      * @return position.
@@ -50,7 +50,7 @@ public interface PositionDao {
     int update(Position position);
 
     /**
-     * Delete position Id.
+     * Delete position by Id.
      *
      * @param positionId position Id.
      * @return the number of rows affected.

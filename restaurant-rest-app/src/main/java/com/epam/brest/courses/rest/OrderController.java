@@ -12,17 +12,36 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Rest controller for order.
+ */
 @RestController
 public class OrderController {
 
+    /**
+     * Default logger for order class.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
+    /**
+     * Object for communication with the order level
+     */
     private final OrderService orderService;
 
+    /**
+     * Constructor accepts service layer object.
+     *
+     * @param orderService
+     */
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
+    /**
+     * Find all orders.
+     *
+     * @returnl ist with all found orders.
+     */
     @GetMapping(value = "/orders")
     public List<Order> findAllOrders(){
 
@@ -31,6 +50,12 @@ public class OrderController {
         return orderService.findAllOrders();
     }
 
+    /**
+     * Find order by id.
+     *
+     * @param id
+     * @return order.
+     */
     @GetMapping("/orders/{id}")
     public Order findById(@PathVariable Integer id){
 
@@ -39,6 +64,13 @@ public class OrderController {
         return orderService.findOrderById(id).orElseThrow(() -> new OrderNotFoundException(id));
     }
 
+    /**
+     * Find order by date.
+     *
+     * @param startDateStr start date.
+     * @param endDateStr end date.
+     * @return orders are placed between two dates.
+     */
     @GetMapping("orders/search/{startDate}/{endDate}")
     public List<Order> findOrderByDate(@PathVariable("startDate") String startDateStr,
                                        @PathVariable("endDate") String endDateStr){
@@ -52,8 +84,12 @@ public class OrderController {
     }
 
 
-
-
+    /**
+     * Add new order to database.
+     *
+     * @param order order.
+     * @return created order id.
+     */
     @PostMapping(path = "/orders", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Integer> addOrder(@RequestBody Order order) {
         LOGGER.debug("createOrder({})", order);
@@ -61,6 +97,12 @@ public class OrderController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
+    /**
+     * Update order.
+     *
+     * @param order
+     * @retur number of updated records in the database.
+     */
     @PutMapping(value = "/orders", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<Integer> updateOrder(@RequestBody Order order) {
 
@@ -69,6 +111,12 @@ public class OrderController {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
+    /**
+     * Delete order.
+     *
+     * @param id order id.
+     * @return the number of rows affected.
+     */
     @DeleteMapping(value = "/orders/{id}", produces = {"application/json"})
     public ResponseEntity<Integer> deleteOrder(@PathVariable Integer id) {
 
