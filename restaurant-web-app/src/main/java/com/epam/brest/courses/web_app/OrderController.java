@@ -22,22 +22,51 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Order controller.
+ */
 @Controller
 public class OrderController {
 
+    /**
+     * Object for communication with the order service level
+     */
     private final OrderService orderService;
+
+    /**
+     * Object for communication with the item service level
+     */
     private final ItemService itemService;
+
+    /**
+     * Object for communication with the position service level
+     */
     private final PositionService positionService;
 
+    /**
+     * Object for communication with the validator
+     */
     @Autowired
     OrderValidator orderValidator;
 
+    /**
+     * Constructor accepts service layer object.
+     * @param orderService
+     * @param itemService
+     * @param positionService
+     */
     public OrderController(OrderService orderService, ItemService itemService, PositionService positionService) {
         this.orderService = orderService;
         this.itemService = itemService;
         this.positionService = positionService;
     }
 
+    /**
+     * Goto order page
+     *
+     * @param model
+     * @return order.html
+     */
     @GetMapping(value = "/orders")
     public String goToOrdersPage(Model model){
         List<Order> orders = orderService.findAllOrders();
@@ -45,6 +74,14 @@ public class OrderController {
         return "orders";
     }
 
+    /**
+     * Search order by date
+     *
+     * @param startDateString
+     * @param endDateString
+     * @param model
+     * @return order list with sorted orders.
+     */
     @PostMapping(value = "/searchByDate")
     public String searchOrderByDate(@ModelAttribute("startDateString") String startDateString,
                                     @ModelAttribute("endDateString") String endDateString,
@@ -69,11 +106,24 @@ public class OrderController {
 
     }
 
+    /**
+     * Goto add order page.
+     *
+     * @return orderAdd.html
+     */
     @GetMapping(value = "/order/add")
     public String goToAddOrder(){
     return "orderAdd";
     }
 
+    /**
+     * Create order in database.
+     *
+     * @param dateString
+     * @param order
+     * @param result
+     * @return orderEdit.html.
+     */
     @PostMapping(value = "/orderAdd")
     public String addOrder(@ModelAttribute("orderDateString") String dateString,
                           @Valid Order order, BindingResult result){
@@ -102,6 +152,13 @@ public class OrderController {
         }
     }
 
+    /**
+     * Goto edit page with all list positions in order.
+     *
+     * @param id
+     * @param model
+     * @return orderEdit.html.
+     */
     @GetMapping(value = "orders/edit/{id}")
     public String goToEditOrderPage(@PathVariable("id") Integer id,
                                     Model model ){
@@ -114,6 +171,13 @@ public class OrderController {
         return "orderEdit";
     }
 
+    /**
+     * Save modified order.
+     *
+     * @param order
+     * @param result
+     * @return orders.html with order list.
+     */
     @PostMapping(value = "/orderEdit")
     public String updateOrder(@Valid Order order,
                               BindingResult result){
@@ -131,6 +195,13 @@ public class OrderController {
         }
     }
 
+    /**
+     * Add item to order.
+     *
+     * @param orderId
+     * @param id
+     * @return edit order page.
+     */
     @GetMapping(value = "/orders/details/{orderId}/add/{id}")
     public String addItemToOrder(
             @PathVariable("orderId") Integer orderId,
@@ -153,6 +224,13 @@ public class OrderController {
         return "redirect:" + url;
     }
 
+    /**
+     * Delete item from order.
+     *
+     * @param id
+     * @param orderId
+     * @return edit order page.
+     */
     @GetMapping(value = "/orders/details/{orderId}/delete/{id}")
     public String deleteItemFromOrder(@PathVariable("id") Integer id,
                                       @PathVariable("orderId") Integer orderId){
@@ -163,6 +241,12 @@ public class OrderController {
         return "redirect:"+url;
     }
 
+    /**
+     * Delete order from data base.
+     *
+     * @param orderId
+     * @return page with order list.
+     */
     @GetMapping(value = "/orders/delete/{id}")
     public String deleteOrder(@PathVariable("id") Integer orderId){
         orderService.delete(orderId);

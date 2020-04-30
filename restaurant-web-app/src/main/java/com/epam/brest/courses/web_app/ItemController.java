@@ -15,23 +15,47 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Item controller.
+ */
 @Controller
 public class ItemController {
 
+    /**
+     * Object for communication with the item service level
+     */
     private final ItemService itemService;
 
+    /**
+     * Object for communication with the validator
+     */
     @Autowired
     ItemValidator itemValidator;
 
+    /**
+     * Constructor accepts service layer object.
+     * @param itemService
+     */
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
+    /**
+     * Go to hello page
+     *
+     * @return hello.html
+     */
     @GetMapping(value = "/")
     public String goToHelloPage(){
         return "hello";
     }
 
+    /**
+     * Goto page with all items.
+     *
+     * @param model
+     * @return page with menu.
+     */
     @GetMapping(value = "/items")
     public String goToItemsPage(Model model){
         List<Item> items = itemService.findAllItem();
@@ -39,11 +63,23 @@ public class ItemController {
         return "items";
     }
 
+    /**
+     * Goto add item page.
+     *
+     * @return itemAdd.html.
+     */
     @GetMapping(value = "/item/add")
     public String goToAddItemPage(){
         return "itemAdd";
     }
 
+    /**
+     * Created item in database.
+     *
+     * @param item
+     * @param result
+     * @return menu page.
+     */
     @PostMapping(value = "/itemAdd")
     public String  addItem(@Valid Item item,
                            BindingResult result){
@@ -63,8 +99,12 @@ public class ItemController {
     }
 
 
-
-
+    /**
+     * Goto item edit page.
+     * @param id
+     * @param model
+     * @return itemEdit.html.
+     */
     @GetMapping(value = "/items/edit/{id}")
     public String goToEditItemPage(@PathVariable("id") Integer id,
                                    Model model){
@@ -73,6 +113,13 @@ public class ItemController {
         return "itemEdit";
     }
 
+    /**
+     * Update item in database.
+     *
+     * @param item
+     * @param result
+     * @return menu page.
+     */
     @PostMapping(value = "/itemEdit")
     public String updateItem(@Valid Item item,
                              BindingResult result){
@@ -91,17 +138,16 @@ public class ItemController {
         }
     }
 
-
+    /**
+     * Delete item from database.
+     *
+     * @param itemId
+     * @return menu page.
+     */
     @GetMapping(value = "/items/delete/{id}")
     public String deleteItemById(@PathVariable("id") Integer itemId){
         itemService.deleteItem(itemId);
         return "redirect:/items";
     }
-
-
-
-
-
-
 }
 

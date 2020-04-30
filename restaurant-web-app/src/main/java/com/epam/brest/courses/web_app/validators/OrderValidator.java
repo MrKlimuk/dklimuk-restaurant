@@ -11,14 +11,30 @@ import org.springframework.validation.Validator;
 
 import static com.epam.brest.courses.constants.OrderConstants.ORDER_NAME_SIZE;
 
+/**
+ * This class validate order objects.
+ */
 @Component
 public class OrderValidator implements Validator {
 
+    /**
+     * Determines if the validator supports this class.
+     * @param clazz Order.class
+     * @return true if support Item.class
+     */
     @Override
     public boolean supports(Class<?> clazz) {
         return Item.class.equals(clazz);
     }
 
+    /**
+     * This method checks the following conditions:
+     * - name length limit;
+     * - positive value of price;
+     *
+     * @param target
+     * @param errors
+     */
     @Override
     public void validate(Object target, Errors errors) {
 
