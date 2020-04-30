@@ -10,18 +10,42 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This DAO interface is designed to manage the position database.
+ */
 public class PositionServiceRest implements PositionService {
+
+    /**
+     * Logger for PositionServiceRest.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(PositionServiceRest.class);
 
+    /**
+     * URL rest-app.
+     */
     private String url;
 
+    /**
+     * Client to perform HTTP requests.
+     */
     private RestTemplate restTemplate;
 
+    /**
+     * Constructor accepts URL and restTemplate.
+     *
+     * @param url url.
+     * @param restTemplate rest template.
+     */
     public PositionServiceRest(String url, RestTemplate restTemplate) {
         this.url = url;
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * Find all orders.
+     *
+     * @return position list.
+     */
     @Override
     public List<Position> findAllPosition() {
         LOGGER.debug("findAll()");
@@ -29,6 +53,12 @@ public class PositionServiceRest implements PositionService {
         return (List<Position>) responseEntity.getBody();
     }
 
+    /**
+     * Find position by id.
+     *
+     * @param positionId position id.
+     * @return position.
+     */
     @Override
     public Optional<Position> findPositionById(Integer positionId) {
         LOGGER.debug("findPositionById({})", positionId);
@@ -37,6 +67,12 @@ public class PositionServiceRest implements PositionService {
         return Optional.ofNullable(responseEntity.getBody());
     }
 
+    /**
+     * Find positions by order id.
+     *
+     * @param positionOrderId position order id.
+     * @return positions list.
+     */
     @Override
     public List<Position> findPositionByOrderId(Integer positionOrderId) {
         LOGGER.debug("findPositionByOrderId({})", positionOrderId);
@@ -45,6 +81,12 @@ public class PositionServiceRest implements PositionService {
         return (List<Position>) responseEntity.getBody();
     }
 
+    /**
+     * Create position.
+     *
+     * @param position position.
+     * @return created position id.
+     */
     @Override
     public Integer create(Position position) {
         LOGGER.debug("create({})", position);
@@ -53,6 +95,12 @@ public class PositionServiceRest implements PositionService {
         return (Integer) result;
     }
 
+    /**
+     * Update position.
+     *
+     * @param position position.
+     * @return number of updated records in the database.
+     */
     @Override
     public int update(Position position) {
 
@@ -61,6 +109,12 @@ public class PositionServiceRest implements PositionService {
         return 1;
     }
 
+    /**
+     * Delete position by Id.
+     *
+     * @param positionId position Id.
+     * @return the number of rows affected.
+     */
     @Override
     public int delete(Integer positionId) {
         LOGGER.debug("delete({})", positionId);

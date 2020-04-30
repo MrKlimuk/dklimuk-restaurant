@@ -10,19 +10,42 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Gets data from rest in JSON format.
+ */
 public class ItemServiceRest implements ItemService {
 
+    /**
+     * Logger for ItemServiceRest.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemServiceRest.class);
 
+    /**
+     * URL rest-app.
+     */
     private String url;
 
+    /**
+     * Client to perform HTTP requests.
+     */
     private RestTemplate restTemplate;
 
+    /**
+     * Constructor accepts URL and restTemplate.
+     *
+     * @param url url.
+     * @param restTemplate rest template.
+     */
     public ItemServiceRest(String url, RestTemplate restTemplate) {
         this.url = url;
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * Find all items.
+     *
+     * @return item list.
+     */
     @Override
     public List<Item> findAllItem() {
 
@@ -31,6 +54,12 @@ public class ItemServiceRest implements ItemService {
         return (List<Item>) responseEntity.getBody();
     }
 
+    /**
+     * Find item by Id.
+     *
+     * @param itemId item Id.
+     * @return item.
+     */
     @Override
     public Optional<Item> findItemById(Integer itemId) {
 
@@ -40,6 +69,12 @@ public class ItemServiceRest implements ItemService {
         return Optional.ofNullable(responseEntity.getBody());
     }
 
+    /**
+     * Creates new item.
+     *
+     * @param item item.
+     * @return created item id.
+     */
     @Override
     public Integer createItem(Item item) {
         LOGGER.debug("create({})", item);
@@ -48,6 +83,12 @@ public class ItemServiceRest implements ItemService {
         return (Integer) result;
     }
 
+    /**
+     * Update item.
+     *
+     * @param item item.
+     * @return number of updated records in the database.
+     */
     @Override
     public int updateItem(Item item) {
 
@@ -56,6 +97,12 @@ public class ItemServiceRest implements ItemService {
         return 1;
     }
 
+    /**
+     * Delete item.
+     *
+     * @param itemId item Id.
+     * @return the number of rows affected.
+     */
     @Override
     public int deleteItem(Integer itemId) {
 
