@@ -116,3 +116,61 @@ curl --request PUT 'http://localhost:8088/items' \
 curl --request DELETE 'http://localhost:8088/items/1'
 ```
 
+
+
+### Position
+
+#### findAll
+
+```
+curl --request GET 'http://localhost:8088/positions' | json_pp
+```
+
+
+#### findById
+
+```
+curl --request GET 'http://localhost:8088/positions/1' | json_pp
+```
+
+#### findPositionByOrderId
+
+````
+curl --request GET 'http://localhost:8088/positions/orderId/1' | json_pp
+
+````
+
+
+#### create
+
+```
+curl --request POST 'http://localhost:8088/positions' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "positionOrderId": 1,
+    "positionName": "New Position",
+    "positionPrice": 100,
+    "positionCount": 1
+}'
+```
+
+#### update
+
+```
+curl --request PUT 'http://localhost:8088/positions' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "positionId": 8,
+    "positionOrderId": 1,
+    "positionName": "Update position",
+    "positionPrice": 100,
+    "positionCount": 1
+}'
+```
+
+#### delete
+
+```
+curl --request DELETE 'http://localhost:8088/positions/1'
+```
