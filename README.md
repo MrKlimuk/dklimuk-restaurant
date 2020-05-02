@@ -1,3 +1,5 @@
+![Java CI with Maven](https://github.com/Brest-Java-Course-2020/dklimuk-restaurant/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 # dklimuk-restaurant
 Restaurant demo application
 
@@ -11,16 +13,33 @@ Goto Project folder and execute
     mvn clean install
     
 
-## Rest server
+## Report 
 
-### Start Rest using Maven Jetty plugin 
-    
-To start Rest using Maven Jetty plugin use:
+Report compilation:
+````
+$ mvn site
+$ mvn site:stage
+````
+Open report:
+````
+/Restaurant/target/site/apidocs/index.html
+````
 
+
+
+
+## Start application on Jetty server
+
+####To run Rest, use the commands below
 
     cd restaurant-rest-app
     mvn jetty:run
 
+#### For Web-app:
+ 
+    cd restaurant-web-app
+    mvn jetty:run
+    
 
 ## Available REST endpoints    
 
