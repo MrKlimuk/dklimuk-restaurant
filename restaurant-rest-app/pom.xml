@@ -111,6 +111,7 @@
     </dependencies>
 
     <build>
+        <finalName>restaurant-rest</finalName>
         <plugins>
             <!-- Embedded Jetty HTTP Server for testing web application -->
             <plugin>

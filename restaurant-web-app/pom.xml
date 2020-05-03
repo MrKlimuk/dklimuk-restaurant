@@ -114,7 +114,52 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>tomcat</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>dr</name>
+                    <value>tomcat</value>
+                </property>
+            </activation>
+            <properties>
+                <port>8080</port>
+                <point.orders>restaurant-rest/orders</point.orders>
+                <point.positions>restaurant-rest/positions</point.positions>
+                <point.items>restaurant-rest/items</point.items>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>jetty</id>
+            <activation>
+                <property>
+                    <name>dr</name>
+                    <value>jetty</value>
+                </property>
+            </activation>
+            <properties>
+                <port>8088</port>
+                <point.orders>orders</point.orders>
+                <point.positions>positions</point.positions>
+                <point.items>items</point.items>
+            </properties>
+        </profile>
+    </profiles>
+
+
     <build>
+        <finalName>restaurant-web</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
