@@ -26,11 +26,32 @@ Open report:
 ````
 
 
+## Start application on Tomcat server
 
+First, compile the project:
+
+    $ mvn clean install
+    
+Then, copy war-files from directory: 
+
+    /dklimuk-restaurant/restaurant-rest-app/target/restaurant-rest.war
+    /dklimuk-restaurant/restaurant-web-app/target/restaurant-web.war
+
+and past this files to next directory:
+
+    apache-tomcat/webapps/
+    
+To open the application, go to the following address
+
+    /http://localhost:8080/restaurant-web/
+    
+For project management open:
+
+    http://localhost:8080/manager/html
 
 ## Start application on Jetty server
 
-####To run Rest, use the commands below
+#### To run Rest-app, use the commands below:
 
     cd restaurant-rest-app
     mvn jetty:run
