@@ -86,9 +86,9 @@ public class OrderControllerIT {
     @Test
     public void shouldFindOrderByDate() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/searchByDate")
+                MockMvcRequestBuilders.post("/orders")
                         .param("startDateString", String.valueOf(START_DATE))
-//                        .param("endDateString", String.valueOf(END_DATE))
+                        .param("endDateString", String.valueOf(END_DATE))
                         )
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -106,7 +106,7 @@ public class OrderControllerIT {
                 .setOrderDate(DATE);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/orderAdd")
+                MockMvcRequestBuilders.post("/order/add")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("orderId", String.valueOf(order.getOrderId()))
                         .param("orderName", order.getOrderName())

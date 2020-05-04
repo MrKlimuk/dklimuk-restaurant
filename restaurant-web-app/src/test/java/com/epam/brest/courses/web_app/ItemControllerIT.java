@@ -98,7 +98,7 @@ public class ItemControllerIT {
                 .setItemPrice(new BigDecimal(10));
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/itemAdd")
+                MockMvcRequestBuilders.post("/item/add")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("itemName", item.getItemName())
                         .param("itemPrice", String.valueOf(item.getItemPrice()))
@@ -130,7 +130,7 @@ public class ItemControllerIT {
                 .setItemPrice(new BigDecimal(10));
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/itemEdit")
+                MockMvcRequestBuilders.post("/items/edit/1")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("itemId", String.valueOf(item.getItemId()))
                         .param("itemName", item.getItemName())
