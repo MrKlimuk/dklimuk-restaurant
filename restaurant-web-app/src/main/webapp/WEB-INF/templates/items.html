@@ -172,8 +172,9 @@
 <script>
     $('#deleteDialog').on('show.bs.modal', function (event) {
         var target = $(event.relatedTarget)
+        var URL = window.location.href;
         $(this).find('.modal-body').text('Delete ' + target.data('name') + '?')
-        document.getElementById('deleteUrl').href = '/items/delete/' + target.data('id');
+        document.getElementById('deleteUrl').href = URL + '/delete/' + target.data('id');
     })
 </script>
 

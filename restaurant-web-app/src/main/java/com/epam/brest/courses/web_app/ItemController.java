@@ -80,7 +80,7 @@ public class ItemController {
      * @param result
      * @return menu page.
      */
-    @PostMapping(value = "/itemAdd")
+    @PostMapping(value = "/item/add")
     public String  addItem(@Valid Item item,
                            BindingResult result){
 
@@ -120,7 +120,7 @@ public class ItemController {
      * @param result
      * @return menu page.
      */
-    @PostMapping(value = "/itemEdit")
+    @PostMapping(value = "/items/edit/{id}")
     public String updateItem(@Valid Item item,
                              BindingResult result){
 

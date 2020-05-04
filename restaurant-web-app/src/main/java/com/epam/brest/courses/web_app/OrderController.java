@@ -82,7 +82,7 @@ public class OrderController {
      * @param model
      * @return order list with sorted orders.
      */
-    @PostMapping(value = "/searchByDate")
+    @PostMapping(value = "/orders")
     public String searchOrderByDate(@ModelAttribute("startDateString") String startDateString,
                                     @ModelAttribute("endDateString") String endDateString,
                                     Model model){
@@ -124,7 +124,7 @@ public class OrderController {
      * @param result
      * @return orderEdit.html.
      */
-    @PostMapping(value = "/orderAdd")
+    @PostMapping(value = "/order/add")
     public String addOrder(@ModelAttribute("orderDateString") String dateString,
                           @Valid Order order, BindingResult result){
 
@@ -178,7 +178,7 @@ public class OrderController {
      * @param result
      * @return orders.html with order list.
      */
-    @PostMapping(value = "/orderEdit")
+    @PostMapping(value = "orders/edit/{id}")
     public String updateOrder(@Valid Order order,
                               BindingResult result){
 

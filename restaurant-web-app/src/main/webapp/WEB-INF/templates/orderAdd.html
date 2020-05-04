@@ -43,7 +43,7 @@
     </nav>
 </header>
 
-<form id="addOrder" action="/orderAdd" method="post">
+<form id="addOrder" th:action="@{${#httpServletRequest.servletPath}}" th:method="post">
     <div class="form-group">
         <label for="AddNewOrderName">Order name:</label>
         <input id="AddNewOrderName"
@@ -60,10 +60,10 @@
                id="orderDate"
                name="orderDateString"/>
     </div>
-    <input type="button"
-           value="Cancel"
-           class="btn btn-secondary"
-           onclick='location.href="/orders"'>
+    <a href="orders.html"
+       th:href="@{/orders}"
+       class="btn btn-secondary"
+       title="Cancel">Cancel</a>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 

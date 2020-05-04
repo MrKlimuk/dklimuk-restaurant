@@ -120,7 +120,7 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
                 <property>
-                    <name>dr</name>
+                    <name>r</name>
                     <value>tomcat</value>
                 </property>
             </activation>
@@ -136,7 +136,7 @@
             <id>jetty</id>
             <activation>
                 <property>
-                    <name>dr</name>
+                    <name>r</name>
                     <value>jetty</value>
                 </property>
             </activation>

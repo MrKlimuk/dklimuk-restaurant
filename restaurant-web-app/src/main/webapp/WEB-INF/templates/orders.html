@@ -70,7 +70,7 @@
     <nav>
         <ul >
             <li >
-                <form id="addOrder" action="/searchByDate" method="post">
+                <form id="searchOrder" th:action="@{${#httpServletRequest.servletPath}}" th:method="post">
                     <label for="startDate">Search by date from</label>
                     <input type="date"   id="startDate" name="startDateString" />
                     <label for="endDate">to</label>
@@ -178,12 +178,11 @@
 <script>
     $('#deleteDialog').on('show.bs.modal', function (event) {
         var target = $(event.relatedTarget)
+        var URL = window.location.href;
         $(this).find('.modal-body').text('Delete ' + target.data('name') + '?')
-        document.getElementById('deleteUrl').href = '/orders/delete/' + target.data('id');
+        document.getElementById('deleteUrl').href = URL + '/delete/' + target.data('id');
     })
 </script>
-
-
 
 </body>
 </html>

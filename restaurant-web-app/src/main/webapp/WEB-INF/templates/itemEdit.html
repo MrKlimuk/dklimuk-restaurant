@@ -42,7 +42,7 @@
 </header>
 
 
-<form id="editItem" th:object="${item}"  action="/itemEdit" method="post">
+<form id="editItem" th:object="${item}"  th:action="@{${#httpServletRequest.servletPath}}" th:method="post">
     <div  class="form-group">
         <input  id=" field_itemId"
                 class="form-control"
@@ -67,10 +67,10 @@
                 value="100"
                 th:field="*{itemPrice}"required>
     </div>
-    <input type="button"
-           value="Cancel"
-           class="btn btn-secondary"
-           onclick='location.href="/items"'>
+    <a href="items.html"
+       th:href="@{/items}"
+       class="btn btn-secondary"
+       title="Cancel">Cancel</a>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 

@@ -44,6 +44,8 @@ and past this files to next directory:
 To open the application, go to the following address
 
     /http://localhost:8080/restaurant-web/
+    /http://localhost:8080/restaurant-rest/
+
     
 For project management open:
 
@@ -54,12 +56,12 @@ For project management open:
 #### To run Rest-app, use the commands below:
 
     cd restaurant-rest-app
-    mvn jetty:run
+    mvn -pl restaurant-rest-app/ jetty:run -P jetty
 
 #### For Web-app:
  
     cd restaurant-web-app
-    mvn jetty:run
+    mvn -pl restaurant-web-app/ jetty:run -P jetty
     
 
 ## Available REST endpoints    

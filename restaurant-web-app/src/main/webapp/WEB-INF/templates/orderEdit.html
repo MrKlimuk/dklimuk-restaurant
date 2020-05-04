@@ -50,7 +50,7 @@
 </header>
 
 
-<form id="editOrder" th:object="${order}"  action="/orderEdit" method="post">
+<form id="editOrder" th:object="${order}"  th:action="@{${#httpServletRequest.servletPath}}" th:method="post">
     <div class="form-group">
         <input  id=" field_orderId"
                 type = "hidden"
