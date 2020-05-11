@@ -1,4 +1,6 @@
 ![Java CI with Maven](https://github.com/Brest-Java-Course-2020/dklimuk-restaurant/workflows/Java%20CI%20with%20Maven/badge.svg)
+[![Build Status](https://travis-ci.org/Brest-Java-Course-2020/dklimuk-restaurant.svg?branch=master)](https://travis-ci.org/Brest-Java-Course-2020/dklimuk-restaurant)
+
 
 # dklimuk-restaurant
 Restaurant demo application
