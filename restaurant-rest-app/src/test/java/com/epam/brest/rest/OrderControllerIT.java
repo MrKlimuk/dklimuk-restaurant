@@ -45,8 +45,6 @@ public class OrderControllerIT {
 
     public static final String ORDERS_ENDPOINT = "/orders";
 
-    private final BigDecimal ORDER_PRICE = new BigDecimal(100);
-    private final BigDecimal ORDER_PRICE_FOR_UPDATE = new BigDecimal(10);
     private final LocalDate DATE = LocalDate.of(2020, 4, 18);
 
     @Autowired

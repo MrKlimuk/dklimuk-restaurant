@@ -22,13 +22,13 @@
 
     <import resource="classpath*:test-db.xml"/>
 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>classpath:dao.properties</value>
-            </list>
-        </property>
-    </bean>
+<!--    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+<!--        <property name="locations">-->
+<!--            <list>-->
+<!--                <value>classpath:dao.properties</value>-->
+<!--            </list>-->
+<!--        </property>-->
+<!--    </bean>-->
 
     <bean id="itemDao" class="com.epam.brest.courses.dao.ItemDaoJdbc">
         <constructor-arg ref="namedParameterJdbcTemplate"/>

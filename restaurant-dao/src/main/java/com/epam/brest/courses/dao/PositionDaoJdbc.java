@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,26 +18,27 @@ import java.util.Optional;
 
 import static com.epam.brest.courses.constants.PositionConstants.*;
 
+@Repository
 public class PositionDaoJdbc implements PositionDao{
 
-    @Value("${position.findAll}")
-    private String findAllSql;
+//    @Value("${position.findAll}")
+    private String findAllSql = "SELECT p.position_id, p.position_order_id, p.position_name, p.position_price, p.position_count FROM position AS p ORDER BY p.position_order_id";
 
-    @Value("${position.findById}")
-    private String findPositionByIdSql;
+//    @Value("${position.findById}")
+    private String findPositionByIdSql = "SELECT position_id, position_order_id, position_name, position_price, position_count FROM position WHERE position_id = :positionId";
 
-    @Value("${position.create}")
-    private String createPositionSql;
+//    @Value("${position.create}")
+    private String createPositionSql = "INSERT INTO position ( position_order_id, position_name, position_price, position_count) VALUES (:positionOrderId, :positionName, :positionPrice, :positionCount)";
 
-    @Value("${position.update}")
-    private String updatePositionSql;
+//    @Value("${position.update}")
+    private String updatePositionSql = "UPDATE position SET position_order_id = :positionOrderId, position_name = :positionName, position_price = :positionPrice, position_count = :positionCount WHERE position_id = :positionId";
 
 
-    @Value("${position.delete}")
-    private String deletePositionSql;
+//    @Value("${position.delete}")
+    private String deletePositionSql = "DELETE FROM position WHERE position_id = :positionId";
 
-    @Value("${position.findByOrderId}")
-    private String findFindPositionByOrderIdSql;
+//    @Value("${position.findByOrderId}")
+    private String findFindPositionByOrderIdSql = "SELECT position_id, position_order_id, position_name, position_price, position_count FROM position WHERE position_order_id = :positionOrderId";
 
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;

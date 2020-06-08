@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -20,25 +21,27 @@ import java.util.Optional;
 import static com.epam.brest.courses.constants.ItemConstants.ITEM_NAME;
 import static com.epam.brest.courses.constants.OrderConstants.*;
 
+@Repository
 public class OrderDaoJdbc implements OrderDao {
 
-    @Value("${ordertable.select}")
-    private String findAllOrdersSql;
+//    @Value("${ordertable.select}")
+    private String findAllOrdersSql = "SELECT d.order_id, d.order_name, d.order_price, d.order_date FROM ordertable  AS d ORDER BY d.order_id";
 
-    @Value("${ordertable.findById}")
-    private String findByIdSql;
+//    @Value("${ordertable.findById}")
+    private String findByIdSql = "SELECT order_id, order_name, order_price, order_date FROM ordertable WHERE order_id = :orderId";
 
-    @Value("${ordertable.create}")
-    private String createOrderSql;
+//    @Value("${ordertable.create}")
+    private String createOrderSql = "INSERT INTO ordertable (order_name, order_price, order_date) VALUES (:orderName, 0, :orderDate)";
 
-    @Value("${ordertable.update}")
-    private String updateOrderSql;
+//    @Value("${ordertable.update}")
+    private String updateOrderSql = "UPDATE ordertable set order_name = :orderName, order_price = ( select sum(position_price)" +
+        " from position where position_order_id = :orderId) where order_id =:orderId";
 
-    @Value("${ordertable.delete}")
-    private String deleteOrderSql;
+//    @Value("${ordertable.delete}")
+    private String deleteOrderSql = "DELETE FROM ordertable WHERE order_id = :orderId";
 
-    @Value("${ordertable.findOrdersByDate}")
-    private String findOrderByDateSql;
+//    @Value("${ordertable.findOrdersByDate}")
+    private String findOrderByDateSql = "SELECT order_id, order_name, order_price, order_date FROM ordertable WHERE order_date BETWEEN :orderDateStart AND :orderDateEnd";
 
     private static final String CHECK_COUNT_NAME = "select count(order_id) from ordertable where lower(order_name) = lower(:orderName)";
 
