@@ -1,50 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet"
           href="../../resources/static/css/font-awesome.min.css"
-          th:href="@{/resources/static/css/font-awesome.min.css}">
+          th:href="@{/css/font-awesome.min.css}">
     <link rel="stylesheet"
           href="../../resources/static/css/bootstrap.css"
-          th:href="@{/resources/static/css/bootstrap.css}">
+          th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet"
           href="../../resources/static/css/style.css"
-          th:href="@{/resources/static/css/style.css}">
-    <title>Orders</title>
+          th:href="@{/css/style.css}">
+    <title>Items</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
 
-
-
-
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
     <style>
         table, th, td {
-            border: 1px solid black;
+            border: 1px solid #000000;
             border-collapse: collapse;
         }
     </style>
-</head>
-<body>
 
+</head>
 <header>
     <nav class="pl-2 navbar navbar-expand-sm navbar-dark bg-dark text-light  p-0">
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a href="/" class="navbar-brand"><img src="../../resources/static/img/logoRestaurant.svg"
-                                              th:src="@{/resources/static/img/logoRestaurant.svg}"
+        <a href="/" class="navbar-brand"><img src="/img/logoRestaurant.svg"
+                                              th:src="@{/img/logoRestaurant.svg}"
                                               height="100" width="100" alt="Restaurant"></a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <a class="nav-item nav-link active"
+                <a class="nav-item nav-link"
                    href="orders.html"
                    th:href="@{/orders}">Orders</a>
-                <a class="nav-item nav-link"
+                <a class="nav-item nav-link active"
                    href="items.html"
                    th:href="@{/items}">Menu</a>
             </ul>
@@ -52,74 +49,75 @@
     </nav>
     <nav id="main-header"
          class="py-1 mb-3 navbar navbar-expand-sm navbar-light bg-light text-dark">
-        <span class="navbar-brand text-uppercase mr-auto">Orders</span>
+        <span class="navbar-brand text-uppercase mr-auto">Menu</span>
         <ul class="navbar-nav float-right">
             <li class="nav-item">
-                <a href="orderAdd.html"
-                   th:href="@{/order/add}"
+                <a href="itemAdd.html"
+                   th:href="@{/item/add}"
                    class="btn btn-light"
-                   title="Add order"
+                   title="Add item"
                    data-toggle="tooltip"
                    data-placement="bottom">
                     <i class="fa fa-plus"></i> <span
-                        class="d-none d-sm-inline">Add new order</span></a>
-            </li>
-
-        </ul>
-    </nav>
-    <nav>
-        <ul >
-            <li >
-                <form id="searchOrder" th:action="@{${#httpServletRequest.servletPath}}" th:method="post">
-                    <label for="startDate">Search by date from</label>
-                    <input type="date"   id="startDate" name="startDateString" />
-                    <label for="endDate">to</label>
-                    <input type="date"   id="endDate" name="endDateString" />
-                    <button type="submit" class="btn btn-primary btn-sm">Search</button>
-                </form>
+                        class="d-none d-sm-inline">Add new item</span></a>
             </li>
         </ul>
     </nav>
 </header>
 
-
-
-<section id="orders">
+<body>
+<section id="items">
     <div class="container-fluid">
         <div class="row">
             <div class="col">
                 <div class="card">
-
                     <table class="table table-striped">
                         <thead class="thead-dark">
                         <tr>
-                            <th>№</th>
                             <th>Name</th>
                             <th>Price</th>
-                            <th>Date</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="order : ${orders}">
-                            <td th:text="${order.orderId}">1</td>
-                            <td th:text="${order.orderName}">1</td>
-                            <td th:text="${order.orderPrice}">1</td>
-                            <td th:text="${order.orderDate}">1</td>
+                        <tr th:each="item : ${items}">
+                            <td th:text="${item.itemName}">Coffee</td>
+                            <td th:text="${item.itemPrice}">1000</td>
                             <td class="text-right">
-                                <a href="orders.html"
-                                   th:href="@{|/orders/edit/${order.orderId}|}"
+                                <a href="itemEdit.html"
+                                   th:href="@{|/items/edit/${item.itemId}|}"
                                    class="btn-sm btn-outline-secondary"
-                                   title="Edit orders"
+                                   title="Edit item"
                                    data-toggle="tooltip"
                                    data-placement="top">
                                     <i class="fa fa-pencil"></i> <span
                                         class="d-none d-md-inline">Edit</span></a>
                                 <span data-toggle="modal"
                                       data-target="#deleteDialog"
-                                      th:attr="data-id=${order.orderId},data-name=${order.orderName}">
+                                      th:attr="data-id=${item.itemId},data-name=${item.itemName}">
                                 <a href="#" class="btn-sm btn-outline-secondary"
-                                   title="delete order"
+                                   title="delete item"
+                                   data-toggle="tooltip"
+                                   data-placement="top">
+                                    <i class="fa fa-remove"></i> <span class="d-none d-md-inline">Delete</span></a>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr th:remove="all">
+                            <td>Coffee</td>
+                            <td>10</td>
+                            <td class="text-right">
+                                <a href="itemEdit.html"
+                                   th:href="@{|/items/edit/${item.itemId}|}"
+                                   class="btn-sm btn-outline-secondary"
+                                   title="Edit item"
+                                   data-toggle="tooltip"
+                                   data-placement="top">
+                                    <i class="fa fa-pencil"></i> <span
+                                        class="d-none d-md-inline">Edit</span></a>
+                                <span data-toggle="modal" data-target="#deleteDialog">
+                                <a href="#" class="btn-sm btn-outline-secondary"
+                                   title="Delete item"
                                    data-toggle="tooltip"
                                    data-placement="top">
                                     <i class="fa fa-remove"></i> <span class="d-none d-md-inline">Delete</span></a>
@@ -135,15 +133,11 @@
 </section>
 
 
-
-
-
 <footer>
     <hr/>
     <p class="text-center">Restaurant</p>
     <p class="text-center">&copy; 2020</p>
 </footer>
-
 
 <!-- Confirm delete Modal -->
 <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog"
@@ -151,7 +145,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header alert-danger">
-                <h5 class="modal-title" id="exampleModalLabel">Delete order</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete item</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -168,12 +162,20 @@
 </div>
 
 
-<script src="../../resources/static/js/jquery.min.js"
-        th:src="@{/resources/static/js/jquery.min.js}"></script>
-<script src="../../resources/static/js/popper.min.js"
-        th:src="@{/resources/static/js/popper.min.js}"></script>
-<script src="../../resources/static/js/bootstrap.min.js"
-        th:src="@{/resources/static/js/bootstrap.min.js}"></script>
+<!--<script src="../../resources/static/js/jquery.min.js"-->
+<!--        th:src="@{/resources/static/js/jquery.min.js}"></script>-->
+<!--<script src="../../resources/static/js/popper.min.js"-->
+<!--        th:src="@{/resources/static/js/popper.min.js}"></script>-->
+<!--<script src="../../resources/static/js/bootstrap.min.js"-->
+<!--        th:src="@{/resources/static/js/bootstrap.min.js}"></script>-->
+
+
+<script src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script src="/js/popper.min.js"
+        th:src="@{/js/popper.min.js}"></script>
+<script src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
 
 <script>
     $('#deleteDialog').on('show.bs.modal', function (event) {
@@ -183,6 +185,7 @@
         document.getElementById('deleteUrl').href = URL + '/delete/' + target.data('id');
     })
 </script>
+
 
 </body>
 </html>

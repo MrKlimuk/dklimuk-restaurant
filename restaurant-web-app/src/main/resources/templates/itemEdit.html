@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet"
           href="../../resources/static/css/font-awesome.min.css"
-          th:href="@{/resources/static/css/font-awesome.min.css}">
+          th:href="@{/css/font-awesome.min.css}">
     <link rel="stylesheet"
           href="../../resources/static/css/bootstrap.css"
-          th:href="@{/resources/static/css/bootstrap.css}">
+          th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet"
           href="../../resources/static/css/style.css"
-          th:href="@{/resources/static/css/style.css}">
-    <title>Order</title>
+          th:href="@{/css/style.css}">
+    <title>Item</title>
 </head>
-
-
 
 <body>
 <header>
@@ -24,7 +22,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a href="/" class="navbar-brand"><img src="../../resources/static/img/logoRestaurant.svg"
-                                              th:src="@{/resources/static/img/logoRestaurant.svg}"
+                                              th:src="@{/img/logoRestaurant.svg}"
                                               height="100" width="100" alt="Restaurant"></a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
@@ -39,38 +37,49 @@
     </nav>
     <nav id="main-header"
          class="py-1 mb-3 navbar navbar-expand-sm navbar-light bg-light text-dark">
-        <span class="navbar-brand text-uppercase mr-auto">Add order</span>
+        <span class="navbar-brand text-uppercase mr-auto">Edit item</span>
     </nav>
 </header>
 
-<form id="addOrder" th:action="@{${#httpServletRequest.servletPath}}" th:method="post">
-    <div class="form-group">
-        <label for="AddNewOrderName">Order name:</label>
-        <input id="AddNewOrderName"
-               class="form-control"
-               name="orderName"
-               required>
+
+<form id="editItem" th:object="${item}"  th:action="@{${#httpServletRequest.servletPath}}" th:method="post">
+    <div  class="form-group">
+        <input  id=" field_itemId"
+                class="form-control"
+                type = "hidden" th:field="*{itemId}"
+                required>
+    </div>
+    <div  class="form-group">
+        <input  id = "EditItemName"
+                class="form-control"
+                name="itemName"
+                value="Item"
+                th:field="*{itemName}" required>
         <small id="nameHelp"
-        class="form-text text-muted">Please, enter a unique name.</small>
+               class="form-text text-muted">Please, enter a unique name.</small>
     </div>
-    <div class="form-group">
-        <label for="orderDate">Order price:</label>
-        <input type="date"
-               class="form-control"
-               id="orderDate"
-               name="orderDateString"/>
+    <div  class="form-group">
+        <input  id="EditItemPrice"
+                class="form-control"
+                name="itemName"
+                type="number"
+                step="0.01"
+                value="100"
+                th:field="*{itemPrice}"required>
     </div>
-    <a href="orders.html"
-       th:href="@{/orders}"
+    <a href="items.html"
+       th:href="@{/items}"
        class="btn btn-secondary"
        title="Cancel">Cancel</a>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
+
 
 <footer>
     <hr/>
     <p class="text-center">Restaurant</p>
     <p class="text-center">&copy; 2020</p>
 </footer>
+
 </body>
 </html>
