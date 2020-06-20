@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.client.ExpectedCount;
@@ -32,6 +33,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 @ExtendWith(SpringExtension.class)
+@ActiveProfiles("dev")
 @ContextConfiguration(locations = {"classpath:app-context-test.xml"})
 public class PositionServiceRestTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PositionServiceRest.class);
