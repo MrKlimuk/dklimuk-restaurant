@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 //@RestController
 @SpringBootApplication(scanBasePackages = {"com.epam.brest.courses*"})
-@ImportResource(locations = "classpath*:test-db.xml")
+@ImportResource(locations = {"classpath*:test-db.xml", "classpath*:dao.xml"})
 public class App {
     public static void main(String[] args) {
 

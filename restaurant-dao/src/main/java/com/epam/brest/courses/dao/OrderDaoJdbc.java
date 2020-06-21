@@ -24,24 +24,23 @@ import static com.epam.brest.courses.constants.OrderConstants.*;
 @Repository
 public class OrderDaoJdbc implements OrderDao {
 
-//    @Value("${ordertable.select}")
-    private String findAllOrdersSql = "SELECT d.order_id, d.order_name, d.order_price, d.order_date FROM ordertable  AS d ORDER BY d.order_id";
+    @Value("${ordertable.select}")
+    private String findAllOrdersSql;
 
-//    @Value("${ordertable.findById}")
-    private String findByIdSql = "SELECT order_id, order_name, order_price, order_date FROM ordertable WHERE order_id = :orderId";
+    @Value("${ordertable.findById}")
+    private String findByIdSql;
 
-//    @Value("${ordertable.create}")
-    private String createOrderSql = "INSERT INTO ordertable (order_name, order_price, order_date) VALUES (:orderName, 0, :orderDate)";
+    @Value("${ordertable.create}")
+    private String createOrderSql;
 
-//    @Value("${ordertable.update}")
-    private String updateOrderSql = "UPDATE ordertable set order_name = :orderName, order_price = ( select sum(position_price)" +
-        " from position where position_order_id = :orderId) where order_id =:orderId";
+    @Value("${ordertable.update}")
+    private String updateOrderSql;
 
-//    @Value("${ordertable.delete}")
-    private String deleteOrderSql = "DELETE FROM ordertable WHERE order_id = :orderId";
+    @Value("${ordertable.delete}")
+    private String deleteOrderSql;
 
-//    @Value("${ordertable.findOrdersByDate}")
-    private String findOrderByDateSql = "SELECT order_id, order_name, order_price, order_date FROM ordertable WHERE order_date BETWEEN :orderDateStart AND :orderDateEnd";
+    @Value("${ordertable.findOrdersByDate}")
+    private String findOrderByDateSql;
 
     private static final String CHECK_COUNT_NAME = "select count(order_id) from ordertable where lower(order_name) = lower(:orderName)";
 

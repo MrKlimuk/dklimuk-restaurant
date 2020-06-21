@@ -21,20 +21,20 @@ import static com.epam.brest.courses.constants.ItemConstants.*;
 @Repository
 public class ItemDaoJdbc implements ItemDao {
 
-//    @Value("${item.findAll}")
-    private String findAllItemSql = "SELECT o.item_id, o.item_name, o.item_price FROM item AS o ORDER BY o.item_id";
+    @Value("${item.findAll}")
+    private String findAllItemSql;
 
-//    @Value("${item.findById}")
-    private String findItemById = "SELECT item_id, item_name, item_price FROM item WHERE item_id = :itemId";
+    @Value("${item.findById}")
+    private String findItemById;
 
-//    @Value("${item.create}")
-    private String createItemSql = "INSERT INTO item (item_name, item_price) VALUES (:itemName, :itemPrice)";
+    @Value("${item.create}")
+    private String createItemSql;
 
-//    @Value("${item.update}")
-    private String updateItemSql = "UPDATE item SET item_name = :itemName, item_price = :itemPrice WHERE item_id = :itemId";
+    @Value("${item.update}")
+    private String updateItemSql;
 
-//    @Value("${item.delete}")
-    private String deleteItemSql = "DELETE FROM item WHERE item_id = :itemId";
+    @Value("${item.delete}")
+    private String deleteItemSql;
 
     private static final String CHECK_COUNT_NAME = "select count(item_id) from item where lower(item_name) = lower(:itemName)";
 

@@ -21,24 +21,24 @@ import static com.epam.brest.courses.constants.PositionConstants.*;
 @Repository
 public class PositionDaoJdbc implements PositionDao{
 
-//    @Value("${position.findAll}")
-    private String findAllSql = "SELECT p.position_id, p.position_order_id, p.position_name, p.position_price, p.position_count FROM position AS p ORDER BY p.position_order_id";
+    @Value("${position.findAll}")
+    private String findAllSql;
 
-//    @Value("${position.findById}")
-    private String findPositionByIdSql = "SELECT position_id, position_order_id, position_name, position_price, position_count FROM position WHERE position_id = :positionId";
+    @Value("${position.findById}")
+    private String findPositionByIdSql;
 
-//    @Value("${position.create}")
-    private String createPositionSql = "INSERT INTO position ( position_order_id, position_name, position_price, position_count) VALUES (:positionOrderId, :positionName, :positionPrice, :positionCount)";
+    @Value("${position.create}")
+    private String createPositionSql;
 
-//    @Value("${position.update}")
-    private String updatePositionSql = "UPDATE position SET position_order_id = :positionOrderId, position_name = :positionName, position_price = :positionPrice, position_count = :positionCount WHERE position_id = :positionId";
+    @Value("${position.update}")
+    private String updatePositionSql;
 
 
-//    @Value("${position.delete}")
-    private String deletePositionSql = "DELETE FROM position WHERE position_id = :positionId";
+    @Value("${position.delete}")
+    private String deletePositionSql;
 
-//    @Value("${position.findByOrderId}")
-    private String findFindPositionByOrderIdSql = "SELECT position_id, position_order_id, position_name, position_price, position_count FROM position WHERE position_order_id = :positionOrderId";
+    @Value("${position.findByOrderId}")
+    private String findFindPositionByOrderIdSql;
 
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
