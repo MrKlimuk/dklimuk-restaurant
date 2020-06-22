@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication(scanBasePackages = {"com.epam.brest.courses*"})
-public class Application implements WebMvcConfigurer {
+public class WebApp implements WebMvcConfigurer {
 
     @Value("${protocol}")
     private String protocol;
@@ -43,7 +43,7 @@ public class Application implements WebMvcConfigurer {
     private ObjectMapper objectMapper;
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(WebApp.class, args);
     }
 
     @Bean

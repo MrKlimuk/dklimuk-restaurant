@@ -13,7 +13,7 @@
     <packaging>war</packaging>
 
     <properties>
-        <start-class>com.epam.brest.courses.web_app.Application</start-class>
+        <start-class>com.epam.brest.courses.web_app.WebApp</start-class>
     </properties>
 
     <dependencies>
