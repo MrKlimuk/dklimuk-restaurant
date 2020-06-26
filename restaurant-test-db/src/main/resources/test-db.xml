@@ -5,22 +5,21 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/jdbc
-       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd"
+       xmlns:context="http://www.springframework.org/schema/context">
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:mem:test_db;MODE=MySQL;DB_CLOSE_DELAY=-1"/>
+        <property name="url" value="jdbc:h2:mem:test_db;DB_CLOSE_DELAY=-1"/>
         <property name="username" value="sa"/>
-        <property name="password" value=""/>
+        <property name="password" value="sa"/>
     </bean>
 
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
 
     <jdbc:initialize-database>
-        <jdbc:script location="classpath*:create-db.sql"/>
-        <jdbc:script location="classpath*:data-script.sql"/>
+        <jdbc:script location="classpath*:test-schema.sql"/>
+        <jdbc:script location="classpath*:test-data.sql"/>
     </jdbc:initialize-database>
 
 </beans>
