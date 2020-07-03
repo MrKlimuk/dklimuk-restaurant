@@ -1,9 +1,14 @@
 package com.epam.brest.courses.dao;
 
 import com.epam.brest.courses.model.Item;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -11,6 +16,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +27,8 @@ import static com.epam.brest.courses.constants.ItemConstants.*;
 
 @Repository
 public class ItemDaoJdbc implements ItemDao {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemDaoJdbc.class);
 
     @Value("${item.findAll}")
     private String findAllItemSql;
@@ -36,12 +45,18 @@ public class ItemDaoJdbc implements ItemDao {
     @Value("${item.delete}")
     private String deleteItemSql;
 
+    @Value("${item.deleteAllItems}")
+    private String deleteAllItemsSql;
+
+
     private static final String CHECK_COUNT_NAME = "select count(item_id) from item where lower(item_name) = lower(:itemName)";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    public ItemDaoJdbc(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public ItemDaoJdbc(NamedParameterJdbcTemplate namedParameterJdbcTemplate, JdbcTemplate jdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
 
@@ -95,5 +110,11 @@ public class ItemDaoJdbc implements ItemDao {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue(ITEM_ID, itemId);
         return namedParameterJdbcTemplate.update(deleteItemSql, param);
+    }
+
+    @Override
+    public void deleteAllItems() {
+        LOGGER.info("delete all items DAO");
+        jdbcTemplate.execute(deleteAllItemsSql);
     }
 }

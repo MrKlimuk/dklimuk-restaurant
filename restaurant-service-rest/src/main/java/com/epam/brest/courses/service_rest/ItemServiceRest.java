@@ -4,10 +4,14 @@ import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.service.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -83,6 +87,17 @@ public class ItemServiceRest implements ItemService {
         return (Integer) result;
     }
 
+    @Override
+    public Integer generateItem(int number, String language) {
+
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("number", String.valueOf(number));
+        param.put("language", String.valueOf(language));
+        restTemplate.getForEntity(url + "/generate?number=" + number
+                                            + "&language=" + language, List.class);
+        return 1;
+    }
+
     /**
      * Update item.
      *
@@ -109,5 +124,11 @@ public class ItemServiceRest implements ItemService {
         LOGGER.debug("delete({})", itemId);
         restTemplate.delete(url + "/" + itemId);
         return 1;
+    }
+
+
+    @Override
+    public void deleteAllItems() {
+
     }
 }

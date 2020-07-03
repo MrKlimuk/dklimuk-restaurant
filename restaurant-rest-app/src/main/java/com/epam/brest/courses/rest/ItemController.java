@@ -4,12 +4,14 @@ package com.epam.brest.courses.rest;
 import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.rest.exception.ItemNotFoundException;
 import com.epam.brest.courses.service.ItemService;
+import com.zaxxer.hikari.metrics.IMetricsTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -78,6 +80,20 @@ public class ItemController {
     }
 
     /**
+     * Generate items
+     * @param number
+     * @param language
+     * @return
+     */
+    @GetMapping("items/generate")
+    public List<Item> generateItems(@RequestParam(defaultValue = "1", name = "number") Integer number,
+                                    @RequestParam(defaultValue = "EN", name = "language") String language){
+
+        itemService.generateItem(number, language);
+        return itemService.findAllItem();
+    }
+
+    /**
      * Update item.
      * @param item
      * @return number of updated records in database.
@@ -101,6 +117,19 @@ public class ItemController {
 
         int result = itemService.deleteItem(id);
         return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    /**
+     * Delete all items
+     *
+     * @return
+     * @throws SQLException
+     */
+    @GetMapping("/items/delete")
+    public ResponseEntity deleteAllItems() throws SQLException {
+        LOGGER.info("delete all items controller");
+        itemService.deleteAllItems();
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

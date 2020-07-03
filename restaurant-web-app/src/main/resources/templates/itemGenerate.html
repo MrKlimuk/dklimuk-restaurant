@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="../../resources/static/css/font-awesome.min.css"
+          th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet"
+          href="../../resources/static/css/bootstrap.css"
+          th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet"
+          href="../../resources/static/css/style.css"
+          th:href="@{/css/style.css}">
+    <title>Generate</title>
+</head>
+
+
+
+<body>
+<header>
+    <nav class="pl-2 navbar navbar-expand-sm navbar-dark bg-dark text-light  p-0">
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a href="/" class="navbar-brand"><img src="../../resources/static/img/logoRestaurant.svg"
+                                              th:src="@{/img/logoRestaurant.svg}"
+                                              height="100" width="100" alt="Restaurant"></a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <a class="nav-item nav-link"
+                   href="orders.html"
+                   th:href="@{/orders}">Orders</a>
+                <a class="nav-item nav-link"
+                   href="items.html"
+                   th:href="@{/items}">Menu</a>
+            </ul>
+        </div>
+    </nav>
+    <nav id="main-header"
+         class="py-1 mb-3 navbar navbar-expand-sm navbar-light bg-light text-dark">
+        <span class="navbar-brand text-uppercase mr-auto">Generate items</span>
+    </nav>
+</header>
+
+<form id="generateItems" th:action="@{${#httpServletRequest.servletPath}}" th:method="post">
+    <div class="form-group">
+        <label for="NumberOfRecords">Number of records:</label>
+        <input id="NumberOfRecords"
+               type="number"
+               min="0"
+               class="form-control"
+               name="number">
+        <small id="nameHelp"
+               class="form-text text-muted">Please, enter number.</small>
+    </div>
+    <div class="form-group">
+        <label for="Language">Language:</label>
+        <input class="form-control"
+               id="Language"
+               list="Languages"
+           name="language">
+        <datalist id="Languages">
+            <option value="EN">
+            <option value="RU">
+        </datalist>
+        <small id="languageHelp"
+               class="form-text text-muted">Please, choose language.</small>
+    </div>
+    <a href="items.html"
+       th:href="@{/items}"
+       class="btn btn-secondary"
+       title="Cancel">Cancel</a>
+    <button type="submit" class="btn btn-primary">Generate</button>
+</form>
+
+<footer>
+    <hr/>
+    <p class="text-center">Restaurant</p>
+    <p class="text-center">&copy; 2020</p>
+</footer>
+
+</body>
+</html>

@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith({SpringExtension.class})
 @ActiveProfiles("dev")
-@ContextConfiguration({"classpath*:test-db.xml", "classpath*:test-service.xml", "classpath:dao.xml"})
+@ContextConfiguration({"classpath*:test-db.xml", "classpath*:test-service.xml", "classpath*:dao.xml"})
 public class PositionDaoImplIT {
 
     private final Integer POSITION_ID = 10;

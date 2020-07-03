@@ -3,6 +3,8 @@ package com.epam.brest.courses.web_app;
 import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.service.ItemService;
 import com.epam.brest.courses.web_app.validators.ItemValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,6 +23,10 @@ import java.util.Optional;
  */
 @Controller
 public class ItemController {
+
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
 
     /**
      * Object for communication with the item service level
@@ -138,6 +145,38 @@ public class ItemController {
         }
     }
 
+
+    /**
+     * Open generate items page
+     *
+     * @return itemGenerate.html
+     */
+    @GetMapping(value = "/items/generate")
+    public String gotoGenerateItemsPage(){
+
+
+        return "itemGenerate";
+    }
+
+    /**
+     * send request to generate items
+     *
+     * @param number
+     * @param language
+     * @return list items
+     */
+    @PostMapping(value = "/items/generate")
+    public String  generateItems(@RequestParam(defaultValue = "1", name = "number") Integer number,
+                                 @RequestParam(defaultValue = "EN", name = "language") String language){
+
+        LOGGER.info("number: ({})", number);
+        LOGGER.info("language: ({})", language);
+
+        itemService.generateItem(number, language);
+
+        return "redirect:/items";
+    }
+
     /**
      * Delete item from database.
      *
@@ -149,5 +188,6 @@ public class ItemController {
         itemService.deleteItem(itemId);
         return "redirect:/items";
     }
+
 }
 

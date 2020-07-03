@@ -2,10 +2,15 @@ package com.epam.brest.courses.service;
 
 import com.epam.brest.courses.dao.ItemDao;
 import com.epam.brest.courses.model.Item;
+import com.github.javafaker.Faker;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -21,6 +26,9 @@ public class ItemServiceImpl implements ItemService{
      */
     private final ItemDao itemDao;
 
+    Faker enFaker = new Faker(new Locale("en_US"));
+    Faker ruFaker = new Faker(new Locale("ru_RU"));
+
     /**
      * Constructor accepts dao layer object.
      * @param itemDao
@@ -28,6 +36,7 @@ public class ItemServiceImpl implements ItemService{
     public ItemServiceImpl(ItemDao itemDao) {
         this.itemDao = itemDao;
     }
+
 
     /**
      * Find all items.
@@ -62,6 +71,37 @@ public class ItemServiceImpl implements ItemService{
     }
 
     /**
+     * Generate items
+     *
+     * @param number
+     * @param language
+     * @return
+     */
+    @Override
+    public Integer generateItem(int number, String language) {
+
+        itemDao.deleteAllItems();
+        Item item = new Item();
+
+        for(int i = 0; i < number; i++){
+            try {
+                switch (language){
+                    case "EN": item.setItemName(enFaker.food().dish()); break;
+                    case "RU": item.setItemName(ruFaker.name().firstName()); break;
+                    default: item.setItemName(enFaker.name().firstName()); break;
+                }
+
+                //todo
+                item.setItemPrice(new BigDecimal(100));
+                itemDao.create(item);
+            } catch (Exception e){
+                i--;
+            }
+        }
+        return 1;
+    }
+
+    /**
      * Update item.
      *
      * @param item item.
@@ -81,5 +121,10 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public int deleteItem(Integer itemId) {
         return itemDao.delete(itemId);
+    }
+
+    @Override
+    public void deleteAllItems() {
+         itemDao.deleteAllItems();
     }
 }

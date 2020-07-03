@@ -52,4 +52,10 @@ public interface ItemDao {
      */
     int delete(Integer itemId);
 
+    /**
+     * Delete all records from item table
+     *
+     */
+    void deleteAllItems();
+
 }

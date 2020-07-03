@@ -12,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -110,5 +111,17 @@ public class ItemDaoJdbcIT {
 
     }
 
+    @Test
+    public void shouldDeleteAllItems() {
+        List<Item>items = itemDao.findAll();
+        assertNotNull(items);
+        assertTrue(items.size() > 0);
+
+        Optional<Item> item = itemDao.findById(2);
+        itemDao.deleteAllItems();
+        items = itemDao.findAll();
+        assertTrue(items.size() == 0);
+
+    }
 }
 

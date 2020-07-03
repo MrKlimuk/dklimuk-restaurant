@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith({SpringExtension.class})
 @ActiveProfiles("dev")
-@ContextConfiguration({"classpath*:test-db.xml", "classpath*:test-service.xml", "classpath:dao.xml"})
+@ContextConfiguration({"classpath*:test-db.xml", "classpath*:test-service.xml", "classpath*:dao.xml"})
 public class OrderServiceImplIT {
 
     private final OrderService orderService;

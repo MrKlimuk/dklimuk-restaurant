@@ -2,6 +2,7 @@ package com.epam.brest.courses.service;
 
 import com.epam.brest.courses.model.Item;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,14 @@ public interface ItemService {
     Integer createItem(Item item);
 
     /**
+     * Generate items with fake data
+     *
+     * @param quantity
+     * @return
+     */
+    Integer generateItem(int quantity, String language);
+
+    /**
      * Update item.
      *
      * @param item item.
@@ -48,4 +57,10 @@ public interface ItemService {
      * @return the number of rows affected.
      */
     int deleteItem(Integer itemId);
+
+    /**
+     * Delete all items
+     */
+    void deleteAllItems();
+
 }
