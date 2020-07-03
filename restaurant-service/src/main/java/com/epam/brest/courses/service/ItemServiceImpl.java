@@ -3,12 +3,13 @@ package com.epam.brest.courses.service;
 import com.epam.brest.courses.dao.ItemDao;
 import com.epam.brest.courses.model.Item;
 import com.github.javafaker.Faker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -20,6 +21,8 @@ import java.util.Optional;
 @Service
 @Transactional
 public class ItemServiceImpl implements ItemService{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemServiceImpl.class);
 
     /**
      * A item data access object.
@@ -86,11 +89,13 @@ public class ItemServiceImpl implements ItemService{
         for(int i = 0; i < number; i++){
             try {
                 switch (language){
-                    case "EN": item.setItemName(enFaker.food().dish()); break;
+                    case "EN": item.setItemName(enFaker.name().firstName()); break;
                     case "RU": item.setItemName(ruFaker.name().firstName()); break;
                     default: item.setItemName(enFaker.name().firstName()); break;
                 }
 
+                LOGGER.info("number: ({})", number);
+                LOGGER.info("hi: ({})", i);
                 //todo
                 item.setItemPrice(new BigDecimal(100));
                 itemDao.create(item);
