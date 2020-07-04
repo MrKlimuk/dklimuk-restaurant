@@ -97,7 +97,7 @@ public class ItemServiceImpl implements ItemService{
                 LOGGER.info("number: ({})", number);
                 LOGGER.info("hi: ({})", i);
                 //todo
-                item.setItemPrice(new BigDecimal(100));
+                item.setItemPrice(new BigDecimal(Math.round((Math.random()*100 + 1)*100)/100));
                 itemDao.create(item);
             } catch (Exception e){
                 i--;
