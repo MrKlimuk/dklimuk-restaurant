@@ -112,6 +112,18 @@ public class ItemServiceImplIT {
 
         Assert.assertTrue(items.size() - 1 == currentItems.size());
     }
+
+    @Test
+    public void shouldDeleteAllItems() {
+        List<Item>items = itemService.findAllItem();
+        Assert.assertNotNull(items);
+        Assert.assertTrue(items.size() > 0);
+
+        itemService.deleteAllItems();
+        items = itemService.findAllItem();
+        Assert.assertTrue(items.size() == 0);
+
+    }
 }
 
 

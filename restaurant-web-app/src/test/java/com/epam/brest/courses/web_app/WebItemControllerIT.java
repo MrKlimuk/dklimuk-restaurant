@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("dev")
 @ContextConfiguration(locations = {"classpath:app-context-test.xml"})
 @Transactional
-public class ItemControllerIT {
+public class WebItemControllerIT {
 
     @Autowired
     private WebApplicationContext wac;
@@ -105,6 +105,32 @@ public class ItemControllerIT {
                         .param("itemName", item.getItemName())
                         .param("itemPrice", String.valueOf(item.getItemPrice()))
                         .sessionAttr("item", item)
+        ).andExpect(status().isFound())
+                .andExpect(view().name("redirect:/items"))
+                .andExpect(redirectedUrl("/items"));
+    }
+
+
+    @Test
+    public void shouldOpenGenerateItemsPage() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/items/generate")
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
+                .andExpect(view().name("itemGenerate")
+                );
+    }
+
+    @Test
+    public void shouldGenerateItems() throws Exception {
+
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/items/generate")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("number", "10")
+                        .param("language", "EN")
         ).andExpect(status().isFound())
                 .andExpect(view().name("redirect:/items"))
                 .andExpect(redirectedUrl("/items"));

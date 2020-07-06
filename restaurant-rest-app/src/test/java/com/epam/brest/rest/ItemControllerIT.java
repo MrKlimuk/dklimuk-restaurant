@@ -106,6 +106,15 @@ public class ItemControllerIT {
     }
 
     @Test
+    public void shouldGenerateItems() throws Exception {
+
+        List<Item> items = itemService.generate(10, "EN");
+        assertNotNull(items);
+        assertTrue(items.size() > 0);
+    }
+
+
+    @Test
     public void shouldUpdateItem() throws Exception {
 
         // given
@@ -236,6 +245,19 @@ public class ItemControllerIT {
                             .andReturn().getResponse();
             return objectMapper.readValue(response.getContentAsString(), Integer.class);
         }
+
+
+        public List<Item> generate( Integer number, String language) throws Exception {
+            LOGGER.debug("generate()");
+            MockHttpServletResponse response = mockMvc.perform(get(ITEMS_ENDPOINT)
+                    .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk())
+                    .andReturn().getResponse();
+            assertNotNull(response);
+
+            return objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Item>>() {});
+        }
+
 
         public int update(Item item) throws Exception {
 

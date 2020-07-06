@@ -2,6 +2,7 @@ package com.epam.brest.courses.service_rest;
 
 
 import com.epam.brest.courses.model.Item;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -129,6 +131,25 @@ public class ItemServiceRestTest {
         // then
         mockServer.verify();
         assertNotNull(id);
+    }
+
+
+    @Test
+    public void shouldGenerateItems() throws URISyntaxException, JsonProcessingException {
+
+        LOGGER.debug("shouldGenerateItems()");
+        // given
+        mockServer.expect(ExpectedCount.once(), requestTo(new URI(URL + "/generate?number=10&language=EN")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(Arrays.asList(10, "EN")))
+                )
+        ;
+
+        itemServiceRest.generateItem(10, "EN");
+
+
     }
 
 
