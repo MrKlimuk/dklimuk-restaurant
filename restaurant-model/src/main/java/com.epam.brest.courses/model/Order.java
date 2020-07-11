@@ -1,33 +1,41 @@
 package com.epam.brest.courses.model;
 
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-/**
- * Database order model.
- */
+
+
+@Entity
+@Table(name = "ordertable")
 public class Order {
+
 
     /**
      * Order id.
      */
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private Integer orderId;
 
     /**
      * Order name.
      */
+    @Column(name = "order_name")
     private String orderName;
 
     /**
      * Order price.
      */
+    @Column(name = "order_price")
     private BigDecimal orderPrice;
 
     /**
@@ -36,6 +44,7 @@ public class Order {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
+    @Column(name = "order_date")
     private LocalDate orderDate;
 
 

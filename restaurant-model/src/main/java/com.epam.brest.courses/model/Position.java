@@ -1,35 +1,42 @@
 package com.epam.brest.courses.model;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 
-/**
- * Database position model.
- */
+@Entity
+@Table(name = "position")
 public class Position {
 
     /**
      * Position id.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "position_id")
     private Integer positionId;
 
     /**
      * Position order id.
      */
+    @Column(name = "position_order_id")
     private Integer positionOrderId;
 
     /**
      * Position name.
      */
+    @Column(name = "position_name")
     private String positionName;
 
     /**
      * Position price.
      */
+    @Column(name = "position_price")
     private BigDecimal positionPrice;
 
     /**
      * Position count.
      */
+    @Column(name = "position_count")
     private Integer positionCount;
 
     /**

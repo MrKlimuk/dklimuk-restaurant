@@ -19,7 +19,7 @@
 
     <jdbc:initialize-database>
         <jdbc:script location="classpath*:test-schema.sql"/>
-        <jdbc:script location="classpath*:test-data.sql"/>
+        <jdbc:script location="classpath*:test-import.sql"/>
     </jdbc:initialize-database>
 
 </beans>

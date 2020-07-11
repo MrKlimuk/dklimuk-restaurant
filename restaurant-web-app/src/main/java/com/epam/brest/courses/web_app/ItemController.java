@@ -93,6 +93,9 @@ public class ItemController {
 
         itemValidator.validate(item, result);
 
+        LOGGER.info("Item name: ({})", item.getItemName());
+        LOGGER.info("Item price: ({})", item.getItemPrice());
+
         if( result.hasErrors()){
             return "itemAdd";
         } else {

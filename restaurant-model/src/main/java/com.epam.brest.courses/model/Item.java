@@ -1,25 +1,33 @@
 package com.epam.brest.courses.model;
 
+import com.sun.istack.NotNull;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 
-/**
- * Database item model.
- */
+@Entity
+@Table(name = "item")
 public class Item {
 
     /**
      * Item id.
      */
+    @Id
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "item_id")
     private Integer itemId;
 
     /**
      * Item name.
      */
+    @Column(name = "item_name")
     private String itemName;
 
     /**
      * Item price.
      */
+    @Column(name = "item_price")
     private BigDecimal itemPrice;
 
     /**
@@ -34,7 +42,6 @@ public class Item {
      */
     public Item(String itemName) {
     }
-
     /**
      * Get item id.
      * @return itemId.
@@ -101,6 +108,9 @@ public class Item {
                 ", itemPrice=" + itemPrice +
                 '}';
     }
+
+
 }
+
 
 
