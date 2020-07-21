@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,6 +27,7 @@ import java.util.Optional;
 import static com.epam.brest.courses.constants.ItemConstants.*;
 
 @Repository
+@Profile("jdbc")
 public class ItemDaoJdbc implements ItemDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemDaoJdbc.class);
@@ -61,14 +63,14 @@ public class ItemDaoJdbc implements ItemDao {
 
 
     @Override
-    public List<Item> findAll() {
+    public List<Item> findAllItems() {
         List<Item> items = namedParameterJdbcTemplate
                 .query(findAllItemSql, BeanPropertyRowMapper.newInstance(Item.class));
         return items;
     }
 
     @Override
-    public Optional<Item> findById(Integer itemId) {
+    public Optional<Item> findItemById(Integer itemId) {
         SqlParameterSource namedParameters = new MapSqlParameterSource(ITEM_ID, itemId);
         List<Item> result = namedParameterJdbcTemplate.query(findItemById, namedParameters,
                 BeanPropertyRowMapper.newInstance(Item.class));

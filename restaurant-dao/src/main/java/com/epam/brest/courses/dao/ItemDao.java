@@ -18,7 +18,7 @@ public interface ItemDao {
      *
      * @return item list.
      */
-    List<Item> findAll();
+    List<Item> findAllItems();
 
     /**
      * Find item by Id.
@@ -26,7 +26,7 @@ public interface ItemDao {
      * @param itemId item Id.
      * @return item.
      */
-    Optional<Item> findById(Integer itemId);
+    Optional<Item> findItemById(Integer itemId);
 
     /**
      * Creates new item.

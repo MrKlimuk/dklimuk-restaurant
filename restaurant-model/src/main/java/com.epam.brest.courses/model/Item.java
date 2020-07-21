@@ -15,13 +15,13 @@ public class Item {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
+    @Column(name = "item_id", nullable = false, unique = true)
     private Integer itemId;
 
     /**
      * Item name.
      */
-    @Column(name = "item_name")
+    @Column(name = "item_name", unique = true)
     private String itemName;
 
     /**

@@ -36,7 +36,7 @@ public class ItemDaoJdbcIT {
 
     @Test
     public void shouldFindAllItem(){
-        List<Item>items = itemDao.findAll();
+        List<Item>items = itemDao.findAllItems();
         assertNotNull(items);
         assertTrue(items.size() > 0);
     }
@@ -49,7 +49,7 @@ public class ItemDaoJdbcIT {
                 .setItemPrice(ITEM_PRICE);
 
         Integer id = itemDao.create(item);
-        Optional<Item> itemOptional = itemDao.findById(id);
+        Optional<Item> itemOptional = itemDao.findItemById(id);
 
         Assertions.assertTrue(itemOptional.isPresent());
         assertEquals(itemOptional.get().getItemId(), id);
@@ -75,7 +75,7 @@ public class ItemDaoJdbcIT {
         Integer id = itemDao.create(item);
         assertNotNull(id);
 
-        Optional<Item> itemOptional = itemDao.findById(id);
+        Optional<Item> itemOptional = itemDao.findItemById(id);
         Assertions.assertTrue(itemOptional.isPresent());
 
         itemOptional.get().setItemName(RandomStringUtils.randomAlphabetic(ITEM_NAME_SIZE))
@@ -83,7 +83,7 @@ public class ItemDaoJdbcIT {
         int result = itemDao.update(itemOptional.get());
         assertTrue(1 == result);
 
-        Optional<Item> optionalUpdateItem = itemDao.findById(id);
+        Optional<Item> optionalUpdateItem = itemDao.findItemById(id);
         Assertions.assertTrue(optionalUpdateItem.isPresent());
 
         assertEquals(optionalUpdateItem.get().getItemId(), id);
@@ -98,13 +98,13 @@ public class ItemDaoJdbcIT {
                 .setItemPrice(ITEM_PRICE);
         Integer id = itemDao.create(item);
 
-        List<Item> items = itemDao.findAll();
+        List<Item> items = itemDao.findAllItems();
         assertNotNull(items);
 
         int result = itemDao.delete(id);
         assertTrue(1 == result);
 
-        List<Item> currentItems = itemDao.findAll();
+        List<Item> currentItems = itemDao.findAllItems();
         assertNotNull(currentItems);
 
         assertTrue(items.size() - 1 == currentItems.size());
@@ -113,13 +113,13 @@ public class ItemDaoJdbcIT {
 
     @Test
     public void shouldDeleteAllItems() {
-        List<Item>items = itemDao.findAll();
+        List<Item>items = itemDao.findAllItems();
         assertNotNull(items);
         assertTrue(items.size() > 0);
 
-        Optional<Item> item = itemDao.findById(2);
+        Optional<Item> item = itemDao.findItemById(2);
         itemDao.deleteAllItems();
-        items = itemDao.findAll();
+        items = itemDao.findAllItems();
         assertTrue(items.size() == 0);
 
     }

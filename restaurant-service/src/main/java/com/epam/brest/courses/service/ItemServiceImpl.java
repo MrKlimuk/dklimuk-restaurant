@@ -1,14 +1,17 @@
 package com.epam.brest.courses.service;
 
 import com.epam.brest.courses.dao.ItemDao;
+import com.epam.brest.courses.dao.ItemDaoJdbc;
+import com.epam.brest.courses.dao.ItemDaoJpaImpl;
 import com.epam.brest.courses.model.Item;
 import com.github.javafaker.Faker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +23,7 @@ import java.util.Optional;
  */
 @Service
 @Transactional
+//@EnableTransactionManagement
 public class ItemServiceImpl implements ItemService{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemServiceImpl.class);
@@ -27,6 +31,7 @@ public class ItemServiceImpl implements ItemService{
     /**
      * A item data access object.
      */
+    @Autowired
     private final ItemDao itemDao;
 
     Faker enFaker = new Faker(new Locale("en_US"));
@@ -48,7 +53,8 @@ public class ItemServiceImpl implements ItemService{
      */
     @Override
     public List<Item> findAllItem() {
-        return itemDao.findAll();
+        LOGGER.info("finAllItems Service");
+        return itemDao.findAllItems();
     }
 
     /**
@@ -59,7 +65,7 @@ public class ItemServiceImpl implements ItemService{
      */
     @Override
     public Optional<Item> findItemById(Integer itemId) {
-        return itemDao.findById(itemId);
+        return itemDao.findItemById(itemId);
     }
 
     /**
@@ -94,10 +100,12 @@ public class ItemServiceImpl implements ItemService{
                     default: item.setItemName(enFaker.name().firstName()); break;
                 }
 
+                item.setItemId(0);
                 LOGGER.info("number: ({})", number);
                 LOGGER.info("hi: ({})", i);
                 //todo
                 item.setItemPrice(new BigDecimal(Math.round((Math.random()*100 + 1)*100)/100));
+                LOGGER.info("Service item: ({})", item);
                 itemDao.create(item);
             } catch (Exception e){
                 i--;
