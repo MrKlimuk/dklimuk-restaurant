@@ -4,15 +4,14 @@ import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.service.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpMethod;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.*;
 
 /**
  * Gets data from rest in JSON format.
@@ -58,6 +57,17 @@ public class ItemServiceRest implements ItemService {
         return (List<Item>) responseEntity.getBody();
     }
 
+    @Override
+    public List<Item> findAllItemPage(int pageNumber, int pageSize) {
+
+        ResponseEntity responseEntity = restTemplate.getForEntity(url + "Page?pageNumber=" + pageNumber
+                + "&pageSize=" + pageSize, List.class);
+
+        return (List<Item>) responseEntity.getBody();
+    }
+
+
+
     /**
      * Find item by Id.
      *
@@ -72,6 +82,18 @@ public class ItemServiceRest implements ItemService {
                 restTemplate.getForEntity(url + "/" + itemId, Item.class);
         return Optional.ofNullable(responseEntity.getBody());
     }
+
+    @Override
+    public Integer getItemTotalPages(int pageNumber, int pageSize) {
+//        Map<String, Integer> param = new HashMap<String, Integer>();
+//        param.put("pageNumber", pageSize);
+//        param.put("pageSize", pageSize);
+        ResponseEntity responseEntity = restTemplate.getForEntity(url + "TotalPages?pageNumber=" + pageNumber
+                + "&pageSize=" + pageSize, Integer.class);
+
+        return (Integer) responseEntity.getBody();
+    }
+
 
     /**
      * Creates new item.

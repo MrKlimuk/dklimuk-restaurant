@@ -4,7 +4,6 @@ package com.epam.brest.courses.rest;
 import com.epam.brest.courses.model.Item;
 import com.epam.brest.courses.rest.exception.ItemNotFoundException;
 import com.epam.brest.courses.service.ItemService;
-import com.zaxxer.hikari.metrics.IMetricsTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -51,6 +50,28 @@ public class ItemController {
 
         return itemService.findAllItem();
     }
+
+    @GetMapping(value = "/itemsPage")
+    public final List<Item> itemsPage(
+            @RequestParam(defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(defaultValue = "5", name = "pageSize") Integer pageSize
+    ){
+
+        LOGGER.debug("itemsPage()");
+        return itemService.findAllItemPage(pageNumber, pageSize);
+    }
+
+    @GetMapping(value = "/itemsTotalPages")
+    public final Integer getItemsTotalPages(
+            @RequestParam(defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(defaultValue = "5", name = "pageSize") Integer pageSize
+    ){
+
+        LOGGER.debug("itemsPage()");
+        return itemService.getItemTotalPages(pageNumber, pageSize);
+    }
+
+
 
     /**
      * Find item by id.

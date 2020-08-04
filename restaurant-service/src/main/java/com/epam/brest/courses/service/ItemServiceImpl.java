@@ -8,6 +8,7 @@ import com.github.javafaker.Faker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,6 +58,13 @@ public class ItemServiceImpl implements ItemService{
         return itemDao.findAllItems();
     }
 
+    @Override
+    public List<Item> findAllItemPage(int pageNumber, int pageSize) {
+        Page<Item> itemPage = itemDao.findAllPage(pageNumber, pageSize);
+
+        return itemPage.toList();
+    }
+
     /**
      * Find item by Id.
      *
@@ -67,6 +75,14 @@ public class ItemServiceImpl implements ItemService{
     public Optional<Item> findItemById(Integer itemId) {
         return itemDao.findItemById(itemId);
     }
+
+    @Override
+    public Integer getItemTotalPages(int pageNumber, int pageSize) {
+        Page<Item> itemPage = itemDao.findAllPage(pageNumber, pageSize);
+
+        return itemPage.getTotalPages();
+    }
+
 
     /**
      * Creates new item.

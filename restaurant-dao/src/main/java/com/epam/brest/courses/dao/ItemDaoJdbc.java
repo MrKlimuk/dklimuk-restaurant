@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.support.DataAccessUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -67,6 +68,11 @@ public class ItemDaoJdbc implements ItemDao {
         List<Item> items = namedParameterJdbcTemplate
                 .query(findAllItemSql, BeanPropertyRowMapper.newInstance(Item.class));
         return items;
+    }
+
+    @Override
+    public Page<Item> findAllPage(int pageNumber, int pageSize) {
+        return null;
     }
 
     @Override

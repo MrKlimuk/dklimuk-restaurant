@@ -3,6 +3,7 @@ package com.epam.brest.courses.dao;
 
 
 import com.epam.brest.courses.model.Item;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,10 @@ public interface ItemDao {
      * @return item list.
      */
     List<Item> findAllItems();
+
+
+
+    Page<Item> findAllPage(int pageNumber, int pageSize);
 
     /**
      * Find item by Id.

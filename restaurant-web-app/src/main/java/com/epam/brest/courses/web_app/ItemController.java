@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Item controller.
@@ -62,11 +64,38 @@ public class ItemController {
      *
      * @param model
      * @return page with menu.
-     */
+//     */
+//    @GetMapping(value = "/items")
+//    public String goToItems(Model model){
+//        List<Item> items = itemService.findAllItem();
+//        model.addAttribute("items", items);
+//        return "items";
+//    }
+
     @GetMapping(value = "/items")
-    public String goToItemsPage(Model model){
-        List<Item> items = itemService.findAllItem();
+    public String goToItemsPage(Model model,
+                                @RequestParam(defaultValue = "0", name = "page") String pageString
+                               ){
+        Integer page = Integer.valueOf(pageString);
+        LOGGER.info("Item controller page = ({})", pageString);
+
+        List<Item> items = itemService.findAllItemPage(Integer.valueOf(page), 5);
         model.addAttribute("items", items);
+        LOGGER.info("Item controller items = ({})", items);
+
+
+        Integer totalPages = itemService.getItemTotalPages(Integer.valueOf(page), 5) - 1;
+        LOGGER.info("total page({})", totalPages);
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(0, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+
+            LOGGER.info("pageNumbers({})", pageNumbers);
+
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
         return "items";
     }
 

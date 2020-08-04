@@ -56,30 +56,30 @@ public class WebItemControllerIT {
                 );
     }
 
-    @Test
-    public void shouldReturnItemPage() throws Exception {
-        mockMvc.perform(
-                MockMvcRequestBuilders.get("/items")
-        ).andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
-                .andExpect(view().name("items"))
-                .andExpect(model().attribute("items", hasItem(
-                        allOf(
-                                hasProperty("itemId", is(1)),
-                                hasProperty("itemName", is("Vino")),
-                                hasProperty("itemPrice", is(new BigDecimal(100)))
-                        )
-                )))
-                .andExpect(model().attribute("items", hasItem(
-                        allOf(
-                                hasProperty("itemId", is(2)),
-                                hasProperty("itemName", is("Coffee")),
-                                hasProperty("itemPrice", is(new BigDecimal(30)))
-                        )
-                )))
-        ;
-    }
+//    @Test
+//    public void shouldReturnItemPage() throws Exception {
+//        mockMvc.perform(
+//                MockMvcRequestBuilders.get("/items")
+//        ).andDo(MockMvcResultHandlers.print())
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
+//                .andExpect(view().name("items"))
+//                .andExpect(model().attribute("items", hasItem(
+//                        allOf(
+//                                hasProperty("itemId", is(1)),
+//                                hasProperty("itemName", is("Vino")),
+//                                hasProperty("itemPrice", is(new BigDecimal(100)))
+//                        )
+//                )))
+//                .andExpect(model().attribute("items", hasItem(
+//                        allOf(
+//                                hasProperty("itemId", is(2)),
+//                                hasProperty("itemName", is("Coffee")),
+//                                hasProperty("itemPrice", is(new BigDecimal(30)))
+//                        )
+//                )))
+//        ;
+//    }
 
     @Test
     public void shouldOpenAddItemPage() throws Exception {

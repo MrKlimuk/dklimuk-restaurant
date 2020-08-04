@@ -4,6 +4,7 @@ import com.epam.brest.courses.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -34,6 +35,11 @@ public class ItemDaoJavaJpa implements ItemDao {
 //        emf.close();
 
         return items;
+    }
+
+    @Override
+    public Page<Item> findAllPage(int pageNumber, int pageSize) {
+        return null;
     }
 
     @Override

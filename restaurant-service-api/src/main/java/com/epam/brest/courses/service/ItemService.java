@@ -1,7 +1,9 @@
 package com.epam.brest.courses.service;
 
 import com.epam.brest.courses.model.Item;
+import org.springframework.data.domain.Page;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +20,9 @@ public interface ItemService {
      */
     List<Item> findAllItem();
 
+
+
+    List<Item> findAllItemPage(int pageNumber, int pageSize);
     /**
      * Find item by Id.
      *
@@ -26,6 +31,7 @@ public interface ItemService {
      */
     Optional<Item> findItemById(Integer itemId);
 
+    Integer getItemTotalPages(int pageNumber, int pageSize);
     /**
      * Creates new item.
      *

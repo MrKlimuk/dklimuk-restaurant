@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +31,14 @@ public class ItemDaoJpaImpl implements ItemDao {
     public List<Item> findAllItems() {
 
       return (List<Item>) itemDaoJpa.findAll();
+    }
+
+    @Override
+    public Page<Item> findAllPage(int pageNumber, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Item> itemPage = itemDaoJpa.findAll(pageable);
+        return itemPage;
     }
 
 
