@@ -53,6 +53,16 @@
         <ul class="navbar-nav float-right">
             <li class="nav-item">
                 <a href="itemAdd.html"
+                   th:href="@{/items/download/items}"
+                   class="btn btn-light"
+                   title="Export"
+                   data-toggle="tooltip"
+                   data-placement="bottom">
+                    <i class="fa fa-plus"></i> <span
+                        class="d-none d-sm-inline">Export</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="itemAdd.html"
                    th:href="@{/item/add}"
                    class="btn btn-light"
                    title="Add item"
@@ -154,19 +164,6 @@
         </div>
     </div>
 </section>
-<!--<div class="row" th:fragment="pagination">-->
-<!--    <div class="col-md-2"></div>-->
-<!--    <div class="col-md-8">-->
-<!--        <nav aria-label="Pagination">-->
-<!--            <ul class="pagination justify-content-center">-->
-<!--                <li class="page-item"   th:each="pageNumber : ${pageNumbers}" >-->
-<!--                    <a class="page-link" th:href="@{|/itemsPage?page=${pageNumber}|}" th:text=${pageNumber}>1</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </nav>-->
-<!--    </div>-->
-<!--    <div class="col-md-2"></div>-->
-<!--</div>-->
 
 <footer>
     <hr/>
@@ -195,15 +192,6 @@
         </div>
     </div>
 </div>
-
-
-<!--<script src="../../resources/static/js/jquery.min.js"-->
-<!--        th:src="@{/resources/static/js/jquery.min.js}"></script>-->
-<!--<script src="../../resources/static/js/popper.min.js"-->
-<!--        th:src="@{/resources/static/js/popper.min.js}"></script>-->
-<!--<script src="../../resources/static/js/bootstrap.min.js"-->
-<!--        th:src="@{/resources/static/js/bootstrap.min.js}"></script>-->
-
 
 <script src="/js/jquery.min.js"
         th:src="@{/js/jquery.min.js}"></script>

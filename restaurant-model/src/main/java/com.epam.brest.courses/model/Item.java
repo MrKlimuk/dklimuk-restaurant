@@ -42,6 +42,11 @@ public class Item {
      */
     public Item(String itemName) {
     }
+
+    public Item(Item item) {
+
+    }
+
     /**
      * Get item id.
      * @return itemId.
