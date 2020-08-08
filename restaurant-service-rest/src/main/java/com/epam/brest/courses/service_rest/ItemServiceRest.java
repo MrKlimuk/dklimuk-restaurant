@@ -152,5 +152,7 @@ public class ItemServiceRest implements ItemService {
     @Override
     public void deleteAllItems() {
 
+        LOGGER.info("deleteAll({})");
+        restTemplate.optionsForAllow(url + "/delete");
     }
 }

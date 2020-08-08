@@ -13,12 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -116,6 +115,24 @@ public class ItemController {
                 .ok()
                 .headers(headers)
                 .body(new InputStreamResource(in));
+    }
+
+    @RequestMapping(value="fileupload", method=RequestMethod.POST)
+    public String processUpload(@RequestParam MultipartFile file,
+                                Model model) throws IOException {
+        // process your file
+        ExcelHelper.hasExcelFormat(file);
+
+        List<Item> items = ExcelHelper.excelToItems(file.getInputStream());
+        LOGGER.info("items.size()=({})",items.size());
+
+        itemService.deleteAllItems();
+        for(Item item: items){
+            itemService.createItem(item);
+        }
+
+        model.addAttribute("items", itemService.findAllItem());
+        return "redirect:/items";
     }
 
     /**
